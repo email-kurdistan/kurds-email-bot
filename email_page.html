@@ -3,32 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Kurdish Advocacy Email</title>
+<style>
+  button { margin: 3px; padding: 5px 10px; }
+  #batch-list button { display: block; width: 100%; text-align: left; }
+  #pagination { margin-top: 10px; }
+</style>
 </head>
 <body>
 
-<h3 id="status">Preparing your email…</h3>
+<h3 id="status">Select your group first:</h3>
+
+<select id="groupSelect">
+  <option value="">--Choose Group--</option>
+  <option value="senate">US Senate</option>
+  <option value="eu">EU Parliament</option>
+</select>
+
+<div id="batch-list"></div>
+<div id="pagination"></div>
 
 <script>
 /* =============================
-   Utilities
+   RECIPIENTS
 ============================= */
-function getParam(name) {
-  return new URLSearchParams(window.location.search).get(name);
-}
-
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-/* =============================
-   Main logic
-============================= */
-(function () {
-  const group = getParam("group");
-  const name  = getParam("name") || "";
-
-  /* 🔴 EMAIL ADDRESSES GO HERE 🔴 */
-  const RECIPIENTS = {
+const RECIPIENTS = {
     senate_1: "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov,jessica_mccune@banks.senate.gov,press@barrasso.senate.gov,press@bennet.senate.gov,spencer_hurwitz@blackburn.senate.gov,maria_mcelwain@blumenthal.senate.gov,Sean_Ryan@bluntrochester.senate.gov,jeff_giertz@booker.senate.gov",
     senate_2: "Matthew_Wester@boozman.senate.gov,Sean_Ross@britt.senate.gov,Mike_Reynard@budd.senate.gov,ansley_lacitis@cantwell.senate.gov,kelley_moore@capito.senate.gov,Joe_ramallo@cassidy.senate.gov,Blake_Kernen@collins.senate.gov,will_baskin-gerwitz@coons.senate.gov,natalie_yezbick@cornyn.senate.gov,lauren_wodarski@cortezmasto.senate.gov",
     senate_3: "caroline_tabler@cotton.senate.gov,Anne_Summerhays@cramer.senate.gov,melanie_lawhorn@crapo.senate.gov,Macarena_Martinez@cruz.senate.gov,Adam_Cloch@curtis.senate.gov,Matt_Lloyd@daines.senate.gov,ben_garmisa@duckworth.senate.gov,emily_hampsten@durbin.senate.gov,palmer_brigham@ernst.senate.gov,tkani_finau@fetterman.senate.gov",
@@ -113,89 +111,74 @@ function pick(arr) {
     eu_73: "lucia.yar@europarl.europa.eu,stephanie.yon@europarl.europa.eu,elena.yoncheva@europarl.europa.eu,maria.zacharia@europarl.europa.eu,ewa.zajaczkowska-hernik@europarl.europa.eu,anna.zalewska@europarl.europa.eu,dainius.zalimas@europarl.europa.eu,alessandro.zan@europarl.europa.eu,javier.zarzalejos@europarl.europa.eu,tomas.zdechovsky@europarl.europa.eu",
     eu_74: "bogdan.zdrojewski@europarl.europa.eu,auke.zijlstra@europarl.europa.eu,roberts.zile@europarl.europa.eu,nicola.zingaretti@europarl.europa.eu,kosma.zlotowski@europarl.europa.eu,juanignacio.zoidoalvarez@europarl.europa.eu,zeljana.zovko@europarl.europa.eu,milan.zver@europarl.europa.eu"
 
+};
 
-  };
+/* =============================
+   Pagination Logic
+============================= */
+const PAGE_SIZE = 10;
+let currentPage = 1;
+let currentGroupKeys = [];
 
-  const bcc = RECIPIENTS[group];
-  if (!bcc) {
-    document.getElementById("status").innerText = "Invalid recipient group.";
+function renderPage(page) {
+  currentPage = page;
+  const start = (page-1)*PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const pageKeys = currentGroupKeys.slice(start,end);
+
+  const listDiv = document.getElementById("batch-list");
+  listDiv.innerHTML = "";
+  pageKeys.forEach(k => {
+    const btn = document.createElement("button");
+    btn.textContent = k;
+    btn.onclick = () => sendBatch(k);
+    listDiv.appendChild(btn);
+  });
+
+  const pagDiv = document.getElementById("pagination");
+  pagDiv.innerHTML = "";
+  if(page>1){
+    const prev = document.createElement("button");
+    prev.textContent = "Previous";
+    prev.onclick = () => renderPage(page-1);
+    pagDiv.appendChild(prev);
+  }
+  if(page < Math.ceil(currentGroupKeys.length / PAGE_SIZE)){
+    const next = document.createElement("button");
+    next.textContent = "Next";
+    next.onclick = () => renderPage(page+1);
+    pagDiv.appendChild(next);
+  }
+  pagDiv.innerHTML += ` Page ${page} of ${Math.ceil(currentGroupKeys.length / PAGE_SIZE)} `;
+}
+
+/* =============================
+   Send batch (placeholder)
+============================= */
+function sendBatch(batchKey) {
+  const emails = RECIPIENTS[batchKey];
+  // here you can call your Python backend API to send the email
+  // Example:
+  // fetch('/send_email', { method: 'POST', body: JSON.stringify({ batch: batchKey }) })
+  alert(`Sending to batch ${batchKey}:\n${emails}`);
+}
+
+/* =============================
+   Group selection
+============================= */
+document.getElementById("groupSelect").addEventListener("change", (e)=>{
+  const group = e.target.value;
+  if(!group) {
+    document.getElementById("status").textContent = "Select a group to continue";
+    document.getElementById("batch-list").innerHTML = "";
+    document.getElementById("pagination").innerHTML = "";
     return;
   }
 
-  /* =============================
-     SUBJECT PARAPHRASING
-  ============================= */
-  const SUBJECTS = [
-    "Urgent Appeal: Do Not Abandon the Kurds of Syria",
-    "Immediate Concern Regarding Kurdish Allies in Syria",
-    "Protect the Kurds of Northeast Syria",
-    "A Moral Obligation Toward Our Kurdish Partners"
-  ];
-
-  /* =============================
-     BODY PARAPHRASING BLOCKS
-  ============================= */
-
-  const OPENING = [
-    "I am writing to urgently draw your attention to the situation facing the Kurdish people in northeast Syria.",
-    "This message is sent with serious concern regarding the growing dangers confronting Kurdish communities in Syria.",
-    "I wish to bring to your immediate attention the unfolding crisis affecting the Kurds of northeast Syria."
-  ];
-
-  const CONTEXT = [
-    "Kurdish forces were among the most reliable and effective partners in the fight against ISIS, sacrificing thousands of lives to defend global security and democratic values.",
-    "During the campaign against ISIS, the Kurds stood on the front lines, bearing immense human cost in defense of shared international principles.",
-    "Few allies contributed more decisively to defeating ISIS than the Kurds, whose sacrifices benefited the entire international community."
-  ];
-
-  const BETRAYAL = [
-    "Today, despite those sacrifices, Kurdish communities face abandonment driven by short-term political considerations.",
-    "Now, those same partners are being left dangerously exposed due to shifting political priorities.",
-    "Alarmingly, trusted allies now face isolation and renewed threats."
-  ];
-
-  const CONSEQUENCE = [
-    "History shows that abandoning the Kurds leads not to stability, but to long-term violence, displacement, and moral failure.",
-    "Past betrayals of the Kurds have consistently resulted in instability and humanitarian catastrophe.",
-    "The consequences of inaction have historically been severe, both morally and strategically."
-  ];
-
-  const CALL = [
-    "I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.",
-    "Please use your position to advocate for concrete measures that guarantee the safety and dignity of Kurdish civilians.",
-    "I respectfully call on you to take a clear and public stand in defense of the Kurdish people."
-  ];
-
-  const CLOSING = [
-    "Silence at this moment is not neutrality.",
-    "History will remember how this moment was met.",
-    "Failure to act now risks repeating past moral failures."
-  ];
-
-  /* =============================
-     ASSEMBLE EMAIL (AI-LIKE)
-  ============================= */
-  let body =
-    "Dear Representative / Public Figure,\n\n" +
-    pick(OPENING) + "\n\n" +
-    pick(CONTEXT) + "\n\n" +
-    pick(BETRAYAL) + "\n\n" +
-    pick(CONSEQUENCE) + "\n\n" +
-    pick(CALL) + "\n\n" +
-    pick(CLOSING) + "\n";
-
-  if (name) {
-    body += "\nSincerely,\n" + name;
-  }
-
-  const mailto =
-    "mailto:?bcc=" + encodeURIComponent(bcc) +
-    "&subject=" + encodeURIComponent(pick(SUBJECTS)) +
-    "&body=" + encodeURIComponent(body);
-
-  window.location.href = mailto;
-})();
+  currentGroupKeys = Object.keys(RECIPIENTS).filter(k => k.startsWith(group));
+  document.getElementById("status").textContent = `Showing ${group.toUpperCase()} batches`;
+  renderPage(1);
+});
 </script>
-
 </body>
 </html>
