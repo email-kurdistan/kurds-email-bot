@@ -9,6 +9,1082 @@
 <h3 id="status">Preparing your email…</h3>
 
 <script>
+// Helper functions
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+// Email batches
+
+// Define email batches (10 per batch)
+const EMAILS = {
+  // Senate batches
+  senate_1: [
+    "Connor_Lounsbury@alsobrooks.senate.gov",
+    "kami_capener@hoeven.senate.gov",
+    "press@baldwin.senate.gov",
+    "jessica_mccune@banks.senate.gov",
+    "press@barrasso.senate.gov",
+    "press@bennet.senate.gov",
+    "spencer_hurwitz@blackburn.senate.gov",
+    "maria_mcelwain@blumenthal.senate.gov",
+    "Sean_Ryan@bluntrochester.senate.gov",
+    "jeff_giertz@booker.senate.gov"
+  ],
+  senate_2: [
+    "Matthew_Wester@boozman.senate.gov",
+    "Sean_Ross@britt.senate.gov",
+    "Mike_Reynard@budd.senate.gov",
+    "ansley_lacitis@cantwell.senate.gov",
+    "kelley_moore@capito.senate.gov",
+    "Joe_ramallo@cassidy.senate.gov",
+    "Blake_Kernen@collins.senate.gov",
+    "will_baskin-gerwitz@coons.senate.gov",
+    "natalie_yezbick@cornyn.senate.gov",
+    "lauren_wodarski@cortezmasto.senate.gov"
+  ],
+  senate_3: [
+    "caroline_tabler@cotton.senate.gov",
+    "Anne_Summerhays@cramer.senate.gov",
+    "melanie_lawhorn@crapo.senate.gov",
+    "Macarena_Martinez@cruz.senate.gov",
+    "Adam_Cloch@curtis.senate.gov",
+    "Matt_Lloyd@daines.senate.gov",
+    "ben_garmisa@duckworth.senate.gov",
+    "emily_hampsten@durbin.senate.gov",
+    "palmer_brigham@ernst.senate.gov",
+    "tkani_finau@fetterman.senate.gov"
+  ],
+  senate_4: [
+    "chloe_folmar@fischer.senate.gov",
+    "jacques_petit@gallego.senate.gov",
+    "evan_lukaske@gillibrand.senate.gov",
+    "taylor_reidy@lgraham.senate.gov",
+    "Clare_Slattery@grassley.senate.gov",
+    "audrey_traynor@hagerty.senate.gov",
+    "sahil_mehrotra@hassan.senate.gov",
+    "Bernadette_Breslin@hawley.senate.gov",
+    "caty_payette@heinrich.senate.gov",
+    "Anthony_rivera-rodriguez@hickenlooper.senate.gov"
+  ],
+  senate_5: [
+    "george_flynn@hirono.senate.gov",
+    "Olivia_tripodi@husted.senate.gov",
+    "chris_gallegos@hydesmith.senate.gov",
+    "kiersten_pels@ronjohnson.senate.gov",
+    "janine_kritschgau@kaine.senate.gov",
+    "jacob_peters@kelly.senate.gov",
+    "Nick_Petromelis@kennedy.senate.gov",
+    "tim_mack@kim.senate.gov",
+    "Dana_Youngentob@king.senate.gov"
+  ],
+  senate_6: [
+    "Michael_kikukawa@klobuchar.senate.gov",
+    "maria_reynolds@lankford.senate.gov",
+    "billy_gribbin@lee.senate.gov",
+    "adan_serna@lujan.senate.gov",
+    "Katie_Warbinton@lummis.senate.gov",
+    "Abigail_Goldring@markey.senate.gov",
+    "Payton_Fuller@marshall.senate.gov",
+    "robert_steurer@mcconnell.senate.gov",
+    "meghan_rodgers@mccormick.senate.gov",
+    "Justin_Krakoff@merkley.senate.gov"
+  ],
+  senate_7: [
+    "Brennan_sullivan@peters.senate.gov",
+    "chip_unruh@reed.senate.gov",
+    "noah_sadlier@ricketts.senate.gov",
+    "Madison_hardy@risch.senate.gov",
+    "press@rosen.senate.gov",
+    "Lydia_Hall@rounds.senate.gov",
+    "press@sanders.senate.gov",
+    "michael_inacay@schatz.senate.gov",
+    "Press@schiff.senate.gov",
+    "Chris_Nuelle@schmitt.senate.gov"
+  ],
+  senate_8: [
+    "alex_nguyen@schumer.senate.gov",
+    "clare_lattanze@rickscott.senate.gov",
+    "tate_mitchell@sheehy.senate.gov",
+    "josh_stewart@slotkin.senate.gov",
+    "charlotte_hoffman@smith.senate.gov",
+    "michael_soukup@sullivan.senate.gov",
+    "ryan_wrasse@thune.senate.gov",
+    "daniel_keylin@tillis.senate.gov",
+    "mallory_jaspers@tuberville.senate.gov",
+    "francesca_amodeo@vanhollen.senate.gov"
+  ],
+  senate_9: [
+    "rachel_cohen@warner.senate.gov",
+    "press@warnock.senate.gov",
+    "alex_sarabia@warren.senate.gov",
+    "aaron_white@welch.senate.gov",
+    "meaghan_mccabe@whitehouse.senate.gov",
+    "keith_chu@wyden.senate.gov",
+    "Matt_Lahr@young.senate.gov"
+  ],
+
+  // EU batches
+  eu_1: [
+    "mika.aaltola@europarl.europa.eu",
+    "maravillas.abadiajover@europarl.europa.eu",
+    "magdalena.adamowicz@europarl.europa.eu",
+    "georgios.aftias@europarl.europa.eu",
+    "oihane.agirregoitiamartinez@europarl.europa.eu",
+    "peter.agius@europarl.europa.eu",
+    "alex.agiussaliba@europarl.europa.eu",
+    "galato.alexandraki@europarl.europa.eu",
+    "gregory.allione@europarl.europa.eu",
+    "abir.alsahlani@europarl.europa.eu"
+  ],
+  eu_2: [
+    "nikolaos.anadiotis@europarl.europa.eu",
+    "christine.anderson@europarl.europa.eu",
+    "li.andersson@europarl.europa.eu",
+    "rasmus.andresen@europarl.europa.eu",
+    "barry.andrews@europarl.europa.eu",
+    "mieke.andriese@europarl.europa.eu",
+    "vytenis.andriukaitis@europarl.europa.eu",
+    "mathilde.androuet@europarl.europa.eu",
+    "marc.angel@europarl.europa.eu",
+    "gerolf.annemans@europarl.europa.eu"
+  ],
+  eu_3: [
+    "lucia.annunziata@europarl.europa.eu",
+    "giuseppe.antoci@europarl.europa.eu",
+    "pablo.ariasecheverria@europarl.europa.eu",
+    "pascal.arimont@europarl.europa.eu",
+    "bartosz.arlukowicz@europarl.europa.eu",
+    "sakis.arnaoutoglou@europarl.europa.eu",
+    "anja.arndt@europarl.europa.eu",
+    "konstantinos.arvanitis@europarl.europa.eu",
+    "jaume.asens@europarl.europa.eu",
+    "francisco.assis@europarl.europa.eu"
+  ],
+  eu_4: [
+    "daniel.attard@europarl.europa.eu",
+    "manon.aubry@europarl.europa.eu",
+    "rene.aust@europarl.europa.eu",
+    "petras.austrevicius@europarl.europa.eu",
+    "adrian-george.axinia@europarl.europa.eu",
+    "malik.azmani@europarl.europa.eu",
+    "thomas.bajada@europarl.europa.eu",
+    "jeannettenicole.baljeu@europarl.europa.eu",
+    "laura.ballarincereza@europarl.europa.eu",
+    "jordan.bardella@europarl.europa.eu"
+  ],
+  eu_5: [
+    "katarina.barley@europarl.europa.eu",
+    "dan.barna@europarl.europa.eu",
+    "pernando.barrena@europarl.europa.eu",
+    "stephennikola.bartulica@europarl.europa.eu",
+    "nikola.bartusek@europarl.europa.eu",
+    "arno.bausemer@europarl.europa.eu",
+    "nicolas.bay@europarl.europa.eu",
+    "christophe.bay@europarl.europa.eu",
+    "wouter.beke@europarl.europa.eu",
+    "fredis.beleris@europarl.europa.eu"
+  ],
+  eu_6: [
+    "fxbellamy@europarl.europa.eu",
+    "adrian-dragos.benea@europarl.europa.eu",
+    "brando.benifei@europarl.europa.eu",
+    "isabel.benjumea@europarl.europa.eu",
+    "monika.benova@europarl.europa.eu",
+    "hildegard.bentele@europarl.europa.eu",
+    "tom.berendsen@europarl.europa.eu",
+    "stefan.berger@europarl.europa.eu",
+    "sibylle.berg@europarl.europa.eu",
+    "sergio.berlato@europarl.europa.eu"
+  ],
+  eu_7: [
+    "alexander.bernhuber@europarl.europa.eu",
+    "robert.biedron@europarl.europa.eu",
+    "adam.bielan@europarl.europa.eu",
+    "gabriele.bischoff@europarl.europa.eu",
+    "lubos.blaha@europarl.europa.eu",
+    "vilija.blinkeviciute@europarl.europa.eu",
+    "rachel.blom@europarl.europa.eu",
+    "michael.bloss@europarl.europa.eu",
+    "tobiasz.bochenski@europarl.europa.eu",
+    "damian.boeselager@europarl.europa.eu"
+  ],
+  eu_8: [
+    "ioan-rares.bogdan@europarl.europa.eu",
+    "stefano.bonaccini@europarl.europa.eu",
+    "barbara.bonte@europarl.europa.eu",
+    "paolo.borchia@europarl.europa.eu",
+    "mireia.borras@europarl.europa.eu",
+    "zsuzsanna.borvendeg@europarl.europa.eu",
+    "biljana.borzan@europarl.europa.eu",
+    "gordan.bosanac@europarl.europa.eu",
+    "irmhild.bossdorf@europarl.europa.eu",
+    "stine.bosse@europarl.europa.eu"
+  ],
+  eu_9: [
+    "marcjohan.botenga@europarl.europa.eu",
+    "gilles.boyer@europarl.europa.eu",
+    "lynn.boylan@europarl.europa.eu",
+    "helmut.brandstaetter@europarl.europa.eu",
+    "marie-luce.brasier-clain@europarl.europa.eu",
+    "grzegorz.braun@europarl.europa.eu",
+    "krzyszzf.brejza@europarl.europa.eu",
+    "saskia.bricmont@europarl.europa.eu",
+    "nikolina.brnjac@europarl.europa.eu",
+    "joachim.brudzinski@europarl.europa.eu"
+  ],
+  eu_10: [
+    "anna.brylka@europarl.europa.eu",
+    "markus.buchheit@europarl.europa.eu",
+    "tomasz.buczek@europarl.europa.eu",
+    "daniel.buda@europarl.europa.eu",
+    "waldemar.buda@europarl.europa.eu",
+    "borys.budka@europarl.europa.eu",
+    "sebastiao.bugalho@europarl.europa.eu",
+    "andrzej.bula@europarl.europa.eu",
+    "udo.bullmann@europarl.europa.eu",
+    "delara.burkhardt@europarl.europa.eu"
+  ],
+  eu_11: [
+    "jorge.buxadevillalba@europarl.europa.eu",
+    "petr.bystron@europarl.europa.eu",
+    "jaroslav.bzoch@europarl.europa.eu",
+    "melissa.camara@europarl.europa.eu",
+    "pascal.canfin@europarl.europa.eu",
+    "nina.carberry@europarl.europa.eu",
+    "gheorghe-florin.carciu@europarl.europa.eu",
+    "damien.careme@europarl.europa.eu",
+    "david.casa@europarl.europa.eu",
+    "daniel.caspary@europarl.europa.eu"
+  ],
+  eu_12: [
+    "benoit.cassart@europarl.europa.eu",
+    "laurent.castillo@europarl.europa.eu",
+    "pilar.delcastillo@europarl.europa.eu",
+    "anna.cavazzini@europarl.europa.eu",
+    "stefano.cavedagna@europarl.europa.eu",
+    "susanna.ceccardi@europarl.europa.eu",
+    "jose.cepeda@europarl.europa.eu",
+    "estelle.ceulemans@europarl.europa.eu",
+    "mohammed.chahim@europarl.europa.eu",
+    "leila.chaibi@europarl.europa.eu"
+  ],
+  eu_13: [
+    "olivier.chastel@europarl.europa.eu",
+    "caterina.chinnici@europarl.europa.eu",
+    "asger.christensen@europarl.europa.eu",
+    "carlo.ciccioli@europarl.europa.eu",
+    "veronika.ostrihonova@europarl.europa.eu",
+    "alessandro.ciriani@europarl.europa.eu",
+    "anna.cisint@europarl.europa.eu",
+    "per.clausen@europarl.europa.eu",
+    "christophe.clergeau@europarl.europa.eu",
+    "david.cormand@europarl.europa.eu"
+  ],
+  eu_14: [
+    "annalisa.corrado@europarl.europa.eu",
+    "vivien.costanzo@europarl.europa.eu",
+    "joao.cotrim@europarl.europa.eu",
+    "barry.cowen@europarl.europa.eu",
+    "tobias.cremer@europarl.europa.eu",
+    "mariacarmen.crespodiaz@europarl.europa.eu",
+    "andi.cristea@europarl.europa.eu",
+    "giovanni.crosetto@europarl.europa.eu",
+    "pauloalexandre.matoscunha@europarl.europa.eu",
+    "henrik.dahl@europarl.europa.eu"
+  ],
+  eu_15: [
+    "johan.danielsson@europarl.europa.eu",
+    "marie.dauchy@europarl.europa.eu",
+    "dora.david@europarl.europa.eu",
+    "ivan.david@europarl.europa.eu",
+    "antonio.decaro@europarl.europa.eu",
+    "jeremy.decerle@europarl.europa.eu",
+    "raul.delahoz@europarl.europa.eu",
+    "danilo.dellavalle@europarl.europa.eu",
+    "valerie.deloge@europarl.europa.eu",
+    "fabio.demasi@europarl.europa.eu"
+  ],
+  eu_16: [
+    "salvatore.demeo@europarl.europa.eu",
+    "oezlem.demirel@europarl.europa.eu",
+    "tamas.deutsch@europarl.europa.eu",
+    "valerie.devaux@europarl.europa.eu",
+    "adnan.dibrani@europarl.europa.eu",
+    "ton.diepeveen@europarl.europa.eu",
+    "elisabeth.dieringer@europarl.europa.eu",
+    "vasile.dincu@europarl.europa.eu",
+    "elio.dirupo@europarl.europa.eu",
+    "melanie.disdier@europarl.europa.eu"
+  ],
+  eu_17: [
+    "klara.dobrev@europarl.europa.eu",
+    "regina.doherty@europarl.europa.eu",
+    "christian.doleschal@europarl.europa.eu",
+    "csaba.domotor@europarl.europa.eu",
+    "paulo.nascimentocabral@europarl.europa.eu",
+    "elena.donazzan@europarl.europa.eu",
+    "herbert.dorfmann@europarl.europa.eu",
+    "klara.dostalova@europarl.europa.eu",
+    "ondrej.dostal@europarl.europa.eu",
+    "siegbert.droese@europarl.europa.eu"
+  ],
+  eu_18: [
+    "lena.duepont@europarl.europa.eu",
+    "michal.dworczyk@europarl.europa.eu",
+    "matthias.ecke@europarl.europa.eu",
+    "christian.ehler@europarl.europa.eu",
+    "marieke.ehlers@europarl.europa.eu",
+    "bas.eickhout@europarl.europa.eu",
+    "sofie.eriksson@europarl.europa.eu",
+    "dick.erixon@europarl.europa.eu",
+    "engin.eroglu@europarl.europa.eu",
+    "rosa.estaras@europarl.europa.eu"
+  ],
+  eu_19: [
+    "sebastian.everding@europarl.europa.eu",
+    "alma.ezcurra@europarl.europa.eu",
+    "gheorghe.falca@europarl.europa.eu",
+    "marco.falcone@europarl.europa.eu",
+    "nikolaos.farantouris@europarl.europa.eu",
+    "laurence.farreng@europarl.europa.eu",
+    "jan.farsky@europarl.europa.eu",
+    "markus.ferber@europarl.europa.eu",
+    "viktoria.ferenc@europarl.europa.eu",
+    "jonas.fernandezalvarez@europarl.europa.eu"
+  ],
+  eu_20: [
+    "carlo.fidanza@europarl.europa.eu",
+    "pietro.fiocchi@europarl.europa.eu",
+    "gabriela.firea@europarl.europa.eu",
+    "ruth.firmenich@europarl.europa.eu",
+    "claire.fita@europarl.europa.eu",
+    "lukeming.flanagan@europarl.europa.eu",
+    "loucas.fourlas@europarl.europa.eu",
+    "emma.fourreau@europarl.europa.eu",
+    "emmanouil.fragkos@europarl.europa.eu",
+    "daniel.freund@europarl.europa.eu"
+  ],
+  eu_21: [
+    "anne-sophie.frigout@europarl.europa.eu",
+    "sigrid.friis@europarl.europa.eu",
+    "helene.fritzon@europarl.europa.eu",
+    "tomasz.froelich@europarl.europa.eu",
+    "niels.fuglsang@europarl.europa.eu",
+    "kathleen.funchion@europarl.europa.eu",
+    "angeline.furet@europarl.europa.eu",
+    "mario.furore@europarl.europa.eu",
+    "michael.gahler@europarl.europa.eu",
+    "kinga.gal@europarl.europa.eu"
+  ],
+  eu_22: [
+    "estrella.galan@europarl.europa.eu",
+    "lina.galvezmunoz@europarl.europa.eu",
+    "alberico.gambino@europarl.europa.eu",
+    "iratxe.garcia-perez@europarl.europa.eu",
+    "raquel.garciahermida-vanderwalle@europarl.europa.eu",
+    "jean-paul.garraud@europarl.europa.eu",
+    "kamila.gasiuk-pihowicz@europarl.europa.eu",
+    "geadis.geadi@europarl.europa.eu",
+    "hanna.gedin@europarl.europa.eu",
+    "alexandra.geese@europarl.europa.eu"
+  ],
+  eu_23: [
+    "jens.geier@europarl.europa.eu",
+    "thomas.geisel@europarl.europa.eu",
+    "chiara.gemma@europarl.europa.eu",
+    "giorgos.georgiou@europarl.europa.eu",
+    "gerbrandy@europarl.europa.eu",
+    "jean-marc.germain@europarl.europa.eu",
+    "gabriella.gerzsenyi@europarl.europa.eu",
+    "niels.geuking@europarl.europa.eu",
+    "jens.gieseke@europarl.europa.eu",
+    "borja.gimenezlarraz@europarl.europa.eu"
+  ],
+  eu_24: [
+    "juancarlos.girautavidal@europarl.europa.eu",
+    "suncana.glavak@europarl.europa.eu",
+    "andreas.glueck@europarl.europa.eu",
+    "raphael.glucksmann@europarl.europa.eu",
+    "charles.goerens@europarl.europa.eu",
+    "christophe.gomart@europarl.europa.eu",
+    "isilda.gomes@europarl.europa.eu",
+    "sandra.gomezlopez@europarl.europa.eu",
+    "bruno.goncalves@europarl.europa.eu",
+    "sergio.sousagoncalves@europarl.europa.eu"
+  ],
+  eu_25: [
+    "nicolas.casares@europarl.europa.eu",
+    "esteban.gonzalezpons@europarl.europa.eu",
+    "giorgio.gori@europarl.europa.eu",
+    "malgorzata.gosiewska@europarl.europa.eu",
+    "dirk.gotink@europarl.europa.eu",
+    "sandro.gozi@europarl.europa.eu",
+    "maria.grapini@europarl.europa.eu",
+    "petras.grazulis@europarl.europa.eu",
+    "marketa.gregorova@europarl.europa.eu",
+    "branko.grims@europarl.europa.eu"
+  ],
+  eu_26: [
+    "catherine.griset@europarl.europa.eu",
+    "hanna.gronkiewicz-waltz@europarl.europa.eu",
+    "bart.groothuis@europarl.europa.eu",
+    "elisabeth.grossmann@europarl.europa.eu",
+    "christophe.grudler@europarl.europa.eu",
+    "elisabetta.gualmini@europarl.europa.eu",
+    "cristina.guarda@europarl.europa.eu",
+    "bernard.guetta@europarl.europa.eu",
+    "martin.guenther@europarl.europa.eu",
+    "maria.guzenina@europarl.europa.eu"
+  ],
+  eu_27: [
+    "eniko.gyori@europarl.europa.eu",
+    "andras.gyurk@europarl.europa.eu",
+    "michael.hadjipantela@europarl.europa.eu",
+    "svenja.hahn@europarl.europa.eu",
+    "roman.haider@europarl.europa.eu",
+    "andrzej.halicki@europarl.europa.eu",
+    "niels.hansen@europarl.europa.eu",
+    "rima.hassan@europarl.europa.eu",
+    "gerald.hauser@europarl.europa.eu",
+    "martin.haeusling@europarl.europa.eu"
+  ],
+  eu_28: [
+    "mircea.hava@europarl.europa.eu",
+    "valerie.hayer@europarl.europa.eu",
+    "anja.hazekamp@europarl.europa.eu",
+    "hannes.heide@europarl.europa.eu",
+    "eero.heinaluoma@europarl.europa.eu",
+    "anna-maja.henriksson@europarl.europa.eu",
+    "niclas.herbst@europarl.europa.eu",
+    "esther.herranzgarcia@europarl.europa.eu",
+    "krzyszf.hetman@europarl.europa.eu",
+    "monika.hohlmeier@europarl.europa.eu"
+  ],
+  eu_29: [
+    "martin.hojsik@europarl.europa.eu",
+    "par.holmgren@europarl.europa.eu",
+    "gyorgy.holvenyi@europarl.europa.eu",
+    "alicia.homs@europarl.europa.eu",
+    "sergio.humberto@europarl.europa.eu",
+    "ivars.ijabs@europarl.europa.eu",
+    "celine.imart@europarl.europa.eu",
+    "evin.incir@europarl.europa.eu",
+    "paolo.inselvini@europarl.europa.eu",
+    "diana.iovanovicisosoaca@europarl.europa.eu"
+  ],
+  eu_30: [
+    "patryktomasz.jaki@europarl.europa.eu",
+    "hana.jalloulmuro@europarl.europa.eu",
+    "france.jamet@europarl.europa.eu",
+    "adam.jarubas@europarl.europa.eu",
+    "romana.jerkovic@europarl.europa.eu",
+    "marc.jongen@europarl.europa.eu",
+    "dariusz.jonski@europarl.europa.eu",
+    "virginie.joron@europarl.europa.eu",
+    "pierre.jouvet@europarl.europa.eu",
+    "irena.joveva@europarl.europa.eu"
+  ],
+  eu_31: [
+    "rasa.jukneviciene@europarl.europa.eu",
+    "nora.juncogarcia@europarl.europa.eu",
+    "alexander.jungbluth@europarl.europa.eu",
+    "taner.kabilov@europarl.europa.eu",
+    "francois.kalfon@europarl.europa.eu",
+    "erik.kalinak@europarl.europa.eu",
+    "marina.kaljurand@europarl.europa.eu",
+    "sandra.kalniete@europarl.europa.eu",
+    "mariusz.kaminski@europarl.europa.eu",
+    "radan.kanev@europarl.europa.eu"
+  ],
+  eu_32: [
+    "assita.kanko@europarl.europa.eu",
+    "karin.karlsbro@europarl.europa.eu",
+    "fernand.kartheiser@europarl.europa.eu",
+    "lubica.karvasova@europarl.europa.eu",
+    "elsi.katainen@europarl.europa.eu",
+    "emmanouil.kefalogiannis@europarl.europa.eu",
+    "billy.kelleher@europarl.europa.eu",
+    "fabienne.keller@europarl.europa.eu",
+    "sean.kelly@europarl.europa.eu",
+    "martine.kemp@europarl.europa.eu"
+  ],
+  eu_33: [
+    "rudi.kennes@europarl.europa.eu",
+    "mary.khan@europarl.europa.eu",
+    "sophia.kircher@europarl.europa.eu",
+    "sarah.knafo@europarl.europa.eu",
+    "ondrej.knotek@europarl.europa.eu",
+    "jaroslav.knot@europarl.europa.eu",
+    "michal.kobosko@europarl.europa.eu",
+    "stefan.koehler@europarl.europa.eu",
+    "lukasz.kohut@europarl.europa.eu",
+    "arba.kokalari@europarl.europa.eu"
+  ],
+  eu_34: [
+    "ondrej.kolar@europarl.europa.eu",
+    "kinga.kollar@europarl.europa.eu",
+    "rihards.kols@europarl.europa.eu",
+    "katerina.konecna@europarl.europa.eu",
+    "ewabozena.kopacz@europarl.europa.eu",
+    "moritz.koerner@europarl.europa.eu",
+    "elena.kountoura@europarl.europa.eu",
+    "andrey.kovatchev@europarl.europa.eu",
+    "vilis.kristopans@europarl.europa.eu",
+    "sebastian.kruis@europarl.europa.eu"
+  ],
+  eu_35: [
+    "ondrej.krutilek@europarl.europa.eu",
+    "tomas.kubin@europarl.europa.eu",
+    "alice.kuhnke@europarl.europa.eu",
+    "andras.kulja@europarl.europa.eu",
+    "katri.kulmuni@europarl.europa.eu",
+    "merja.kyllonen@europarl.europa.eu",
+    "ilhan.kyuchyuk@europarl.europa.eu",
+    "sergey.lagodinsky@europarl.europa.eu",
+    "eszter.lakos@europarl.europa.eu",
+    "aurore.lalucq@europarl.europa.eu"
+  ],
+  eu_36: [
+    "bernd.lange@europarl.europa.eu",
+    "katrin.langensiepen@europarl.europa.eu",
+    "judita.lassakova@europarl.europa.eu",
+    "andras.laszlo@europarl.europa.eu",
+    "afroditi.latinopoulou@europarl.europa.eu",
+    "murielle.laurent@europarl.europa.eu",
+    "camilla.laureti@europarl.europa.eu",
+    "rada.laykova@europarl.europa.eu",
+    "ilia.lazarov@europarl.europa.eu",
+    "luis.lazarus@europarl.europa.eu"
+  ],
+  eu_37: [
+    "isabelle.lecallennec@europarl.europa.eu",
+    "fabrice.leggeri@europarl.europa.eu",
+    "jeroen.lenaers@europarl.europa.eu",
+    "julien.leonardelli@europarl.europa.eu",
+    "janusz.lewandowski@europarl.europa.eu",
+    "miriam.lexmann@europarl.europa.eu",
+    "peter.liese@europarl.europa.eu",
+    "norbert.lins@europarl.europa.eu",
+    "nathalie.loiseau@europarl.europa.eu",
+    "morten.lokkegaard@europarl.europa.eu"
+  ],
+  eu_38: [
+    "reinhold.lopatka@europarl.europa.eu",
+    "javi.lopez@europarl.europa.eu",
+    "juanfernando.lopezaguilar@europarl.europa.eu",
+    "antonio.lopezisturiz@europarl.europa.eu",
+    "isabella.lovin@europarl.europa.eu",
+    "domenico.lucano@europarl.europa.eu",
+    "cesar.luena@europarl.europa.eu",
+    "elzbieta.lukacijewska@europarl.europa.eu",
+    "giuseppe.lupo@europarl.europa.eu",
+    "david.mcallister@europarl.europa.eu"
+  ],
+  eu_39: [
+    "jaak.madison@europarl.europa.eu",
+    "cristina.maestre@europarl.europa.eu",
+    "lara.magoni@europarl.europa.eu",
+    "peter.magyar@europarl.europa.eu",
+    "marit.maij@europarl.europa.eu",
+    "marlena.malag@europarl.europa.eu",
+    "iulian-claudiu.manda@europarl.europa.eu",
+    "lukas.mandl@europarl.europa.eu",
+    "ioannis.maniatis@europarl.europa.eu",
+    "mario.mantovani@europarl.europa.eu"
+  ],
+  eu_40: [
+    "pierfrancesco.maran@europarl.europa.eu",
+    "jagna.marczulajtis-walczak@europarl.europa.eu",
+    "marion.marechal@europarl.europa.eu",
+    "thierry.mariani@europarl.europa.eu",
+    "ignazio.marino@europarl.europa.eu",
+    "erik.marquardt@europarl.europa.eu",
+    "jorge.martinfrias@europarl.europa.eu",
+    "catarina.martins@europarl.europa.eu",
+    "fulvio.martusciello@europarl.europa.eu",
+    "vicent.marzaibanez@europarl.europa.eu"
+  ],
+  eu_41: [
+    "gabriel.mato@europarl.europa.eu",
+    "sara.matthieu@europarl.europa.eu",
+    "costas.mavrides@europarl.europa.eu",
+    "eva.maydell@europarl.europa.eu",
+    "georg.mayer@europarl.europa.eu",
+    "milan.mazurek@europarl.europa.eu",
+    "liudas.mazylis@europarl.europa.eu",
+    "michael.mcnamara@europarl.europa.eu",
+    "nora.mebarek@europarl.europa.eu",
+    "alexandra.mehnert@europarl.europa.eu"
+  ],
+  eu_42: [
+    "evangelos.meimarakis@europarl.europa.eu",
+    "eleonora.meleti@europarl.europa.eu",
+    "anacatarina.mendes@europarl.europa.eu",
+    "idoia.mendia@europarl.europa.eu",
+    "verena.mertens@europarl.europa.eu",
+    "marina.mesure@europarl.europa.eu",
+    "roberta.metsola@europarl.europa.eu",
+    "tilly.metz@europarl.europa.eu",
+    "sven.mikser@europarl.europa.eu",
+    "giuseppe.milazzo@europarl.europa.eu"
+  ],
+  eu_43: [
+    "francisco.millanmon@europarl.europa.eu",
+    "nikola.minchev@europarl.europa.eu",
+    "ana.miranda@europarl.europa.eu",
+    "csaba.molnar@europarl.europa.eu",
+    "irene.montero@europarl.europa.eu",
+    "d.montserrat@europarl.europa.eu",
+    "carolina.morace@europarl.europa.eu",
+    "nadine.morano@europarl.europa.eu",
+    "letizia.moratti@europarl.europa.eu",
+    "tiago.damotaveigamoreiradesa@europarl.europa.eu"
+  ],
+  eu_44: [
+    "javier.morenosanchez@europarl.europa.eu",
+    "alessandra.moretti@europarl.europa.eu",
+    "dan-stefan.motreanu@europarl.europa.eu",
+    "arkadiusz.mularczyk@europarl.europa.eu",
+    "piotr.muller@europarl.europa.eu",
+    "ciaran.mullooly@europarl.europa.eu",
+    "siegfried.muresan@europarl.europa.eu",
+    "stefan.musoiu@europarl.europa.eu",
+    "jana.nagyova@europarl.europa.eu",
+    "dario.nardella@europarl.europa.eu"
+  ],
+  eu_45: [
+    "fernando.navarrete@europarl.europa.eu",
+    "victor.negrescu@europarl.europa.eu",
+    "matjaz.nemec@europarl.europa.eu",
+    "danuse.nerudova@europarl.europa.eu",
+    "denis.nesci@europarl.europa.eu",
+    "hans.neuhoff@europarl.europa.eu",
+    "hannah.neumann@europarl.europa.eu",
+    "elena.nevadodelcampo@europarl.europa.eu",
+    "dan.nica@europarl.europa.eu",
+    "angelika.niebler@europarl.europa.eu"
+  ],
+  eu_46: [
+    "ludek.niedermayer@europarl.europa.eu",
+    "ville.niinisto@europarl.europa.eu",
+    "lefteris.nikolaou@europarl.europa.eu",
+    "aleksandar.nikolic@europarl.europa.eu",
+    "cynthia.nimhurchu@europarl.europa.eu",
+    "maria.noichl@europarl.europa.eu",
+    "rasmus.nordqvist@europarl.europa.eu",
+    "andrey.novakov@europarl.europa.eu",
+    "miroslawa.nykiel@europarl.europa.eu",
+    "daniel.obajtek@europarl.europa.eu"
+  ],
+  eu_47: [
+    "ludovit.odor@europarl.europa.eu",
+    "jan-christoph.oetjen@europarl.europa.eu",
+    "maria.ohisalo@europarl.europa.eu",
+    "joao.oliveira@europarl.europa.eu",
+    "philippe.olivier@europarl.europa.eu",
+    "younous.omarjee@europarl.europa.eu",
+    "branislav.ondrus@europarl.europa.eu",
+    "aodhan.oriordain@europarl.europa.eu",
+    "leoluca.orlando@europarl.europa.eu",
+    "jacek.ozdoba@europarl.europa.eu"
+  ],
+  eu_48: [
+    "urmas.paet@europarl.europa.eu",
+    "leire.pajiniraola@europarl.europa.eu",
+    "valentina.palmisano@europarl.europa.eu",
+    "fidias.panayiotou@europarl.europa.eu",
+    "kostas.papadakis@europarl.europa.eu",
+    "nikos.papandreou@europarl.europa.eu",
+    "nikolaos.pappas@europarl.europa.eu",
+    "nicolas.pascualdelaparte@europarl.europa.eu",
+    "aldo.patriciello@europarl.europa.eu",
+    "jutta.paulus@europarl.europa.eu"
+  ],
+  eu_49: [
+    "anamiguel.pedro@europarl.europa.eu",
+    "gaetano.pedulla@europarl.europa.eu",
+    "thomas.pellerin-carlin@europarl.europa.eu",
+    "guillaume.peltier@europarl.europa.eu",
+    "tsvetelina.penkova@europarl.europa.eu",
+    "gilles.pennelle@europarl.europa.eu",
+    "lidia.pereira@europarl.europa.eu",
+    "luisalvise.perezfernandez@europarl.europa.eu",
+    "kira.peter-hansen@europarl.europa.eu",
+    "hristo.petrov@europarl.europa.eu"
+  ],
+  eu_50: [
+    "michele.picaro@europarl.europa.eu",
+    "giuseppina.picierno@europarl.europa.eu",
+    "tonino.picula@europarl.europa.eu",
+    "pascale.piera@europarl.europa.eu",
+    "sirpa.pietikainen@europarl.europa.eu",
+    "pierre.pimpie@europarl.europa.eu",
+    "gheorghe.piperea@europarl.europa.eu",
+    "margarita.delapisa@europarl.europa.eu",
+    "jaroslava.pokornajermanova@europarl.europa.eu",
+    "daniele.polato@europarl.europa.eu"
+  ],
+  eu_51: [
+    "jessica.polfjard@europarl.europa.eu",
+    "virgil.popescu@europarl.europa.eu",
+    "reinis.poznaks@europarl.europa.eu",
+    "vladimir.prebilic@europarl.europa.eu",
+    "giusi.princi@europarl.europa.eu",
+    "nicola.procaccini@europarl.europa.eu",
+    "jacek.protas@europarl.europa.eu",
+    "friedrich.puerner@europarl.europa.eu",
+    "emil.radev@europarl.europa.eu",
+    "denis.radtke@europarl.europa.eu"
+  ],
+  eu_52: [
+    "emma.rafowicz@europarl.europa.eu",
+    "juri.ratas@europarl.europa.eu",
+    "ruggero.razza@europarl.europa.eu",
+    "julie.rechagneux@europarl.europa.eu",
+    "evelyn.regner@europarl.europa.eu",
+    "terry.reintke@europarl.europa.eu",
+    "rene.repasi@europarl.europa.eu",
+    "sabrina.repp@europarl.europa.eu",
+    "karlo.ressler@europarl.europa.eu",
+    "thijs.reuten@europarl.europa.eu"
+  ],
+  eu_53: [
+    "diana.ribaiginer@europarl.europa.eu",
+    "matteo.ricci@europarl.europa.eu",
+    "chloe.ridel@europarl.europa.eu",
+    "nela.riehl@europarl.europa.eu",
+    "manuela.ripa@europarl.europa.eu",
+    "andre.franqueirarodrigues@europarl.europa.eu",
+    "marcos.ros@europarl.europa.eu",
+    "katarina.roth@europarl.europa.eu",
+    "andre.rouge@europarl.europa.eu"
+  ],
+  eu_54: [
+    "sandro.ruotolo@europarl.europa.eu",
+    "bogdan.rzonca@europarl.europa.eu",
+    "arash.saeidi@europarl.europa.eu",
+    "massimiliano.salini@europarl.europa.eu",
+    "ilaria.salis@europarl.europa.eu",
+    "aura.salla@europarl.europa.eu",
+    "nacho.sanchezamor@europarl.europa.eu",
+    "julien.sanchez@europarl.europa.eu",
+    "elena.sanchomurillo@europarl.europa.eu",
+    "jussi.saramo@europarl.europa.eu"
+  ],
+  eu_55: [
+    "silvia.sardone@europarl.europa.eu",
+    "marjan.sarec@europarl.europa.eu",
+    "eric.sargiacomo@europarl.europa.eu",
+    "paulius.saudargas@europarl.europa.eu",
+    "majdouline.sbai@europarl.europa.eu",
+    "antonella.sberna@europarl.europa.eu",
+    "christel.schaldemose@europarl.europa.eu",
+    "erno.schaller-baross@europarl.europa.eu",
+    "oliver.schenk@europarl.europa.eu",
+    "joanna.scheuring-wielgus@europarl.europa.eu"
+  ],
+  eu_56: [
+    "andreas.schieder@europarl.europa.eu",
+    "lena.schilling@europarl.europa.eu",
+    "martin.schirdewan@europarl.europa.eu",
+    "christine.schneider@europarl.europa.eu",
+    "volker.schnurrbusch@europarl.europa.eu",
+    "andreas.schwab@europarl.europa.eu",
+    "benedetta.scuderi@europarl.europa.eu",
+    "ralf.seekatz@europarl.europa.eu",
+    "alexander.sell@europarl.europa.eu",
+    "rosa.serranosierra@europarl.europa.eu"
+  ],
+  eu_57: [
+    "isabel.serrasanchez@europarl.europa.eu",
+    "guenther.sidl@europarl.europa.eu",
+    "bartlomiej.sienkiewicz@europarl.europa.eu",
+    "lukas.sieper@europarl.europa.eu",
+    "sven.simon@europarl.europa.eu",
+    "christine.singer@europarl.europa.eu",
+    "virginijus.sinkevicius@europarl.europa.eu",
+    "birgit.sippel@europarl.europa.eu",
+    "jonas.sjostedt@europarl.europa.eu",
+    "krzyszf.smiszek@europarl.europa.eu"
+  ],
+  eu_58: [
+    "anthony.smith@europarl.europa.eu",
+    "sander.smit@europarl.europa.eu",
+    "tomislav.sokol@europarl.europa.eu",
+    "diego.solierfernandez@europarl.europa.eu",
+    "susana.solisperez@europarl.europa.eu",
+    "liesbet.sommen@europarl.europa.eu",
+    "martin.sonneborn@europarl.europa.eu",
+    "malika.sorel@europarl.europa.eu",
+    "helder.sousasilva@europarl.europa.eu",
+    "villy.sovndal@europarl.europa.eu"
+  ],
+  eu_59: [
+    "marco.squarta@europarl.europa.eu",
+    "martins.stakis@europarl.europa.eu",
+    "raffaele.stancanelli@europarl.europa.eu",
+    "antonin.stanek@europarl.europa.eu",
+    "nicolae.stefanuta@europarl.europa.eu",
+    "petra.steger@europarl.europa.eu",
+    "davorivo.stier@europarl.europa.eu",
+    "kristoffer.storm@europarl.europa.eu",
+    "stanislav.stoyanov@europarl.europa.eu",
+    "marie-agnes.strack-zimmermann@europarl.europa.eu"
+  ],
+  eu_60: [
+    "cecilia.strada@europarl.europa.eu",
+    "joachim.streit@europarl.europa.eu",
+    "tineke.strik@europarl.europa.eu",
+    "anna.strolenberg@europarl.europa.eu",
+    "serban.dimitrie.sturdza@europarl.europa.eu",
+    "anna.sturgkh@europarl.europa.eu",
+    "marcin.sypniewski@europarl.europa.eu",
+    "michal.szczerba@europarl.europa.eu",
+    "pal.szekeres@europarl.europa.eu",
+    "beata.szydlo@europarl.europa.eu"
+  ],
+  eu_61: [
+    "dario.tamburrano@europarl.europa.eu",
+    "antonio.tangercorrea@europarl.europa.eu",
+    "dominik.tarczynski@europarl.europa.eu",
+    "marco.tarquinio@europarl.europa.eu",
+    "zoltan.tarr@europarl.europa.eu",
+    "claudiu-richard.tarziu@europarl.europa.eu",
+    "carlamaria.nunestavares@europarl.europa.eu",
+    "kai.tegethoff@europarl.europa.eu",
+    "marta.temido@europarl.europa.eu",
+    "georgiana.teodorescu@europarl.europa.eu"
+  ],
+  eu_62: [
+    "alice.teodorescumawe@europarl.europa.eu",
+    "cristian.terhes@europarl.europa.eu",
+    "ingeborg.terlaak@europarl.europa.eu",
+    "riho.terras@europarl.europa.eu",
+    "hermann.tertsch@europarl.europa.eu",
+    "pierre-romain.thionnet@europarl.europa.eu",
+    "beatrice.timgren@europarl.europa.eu",
+    "irene.tinagli@europarl.europa.eu",
+    "bruno.tobback@europarl.europa.eu",
+    "tomas.tobe@europarl.europa.eu"
+  ],
+  eu_63: [
+    "rody.tolassy@europarl.europa.eu",
+    "eugen.tomac@europarl.europa.eu",
+    "zala.tomasic@europarl.europa.eu",
+    "waldemar.tomaszewski@europarl.europa.eu",
+    "romana.tomc@europarl.europa.eu",
+    "matej.tonin@europarl.europa.eu",
+    "jana.toom@europarl.europa.eu",
+    "raffaele.topo@europarl.europa.eu",
+    "francesco.torselli@europarl.europa.eu",
+    "flavio.tosi@europarl.europa.eu"
+  ],
+  eu_64: [
+    "marie.toussaint@europarl.europa.eu",
+    "isabella.tovaglieri@europarl.europa.eu",
+    "pekka.toveri@europarl.europa.eu",
+    "pasquale.tridico@europarl.europa.eu",
+    "laurence.trochu@europarl.europa.eu",
+    "dimitrios.tsiodras@europarl.europa.eu",
+    "mihai.tudose@europarl.europa.eu",
+    "sebastian.tynkkynen@europarl.europa.eu",
+    "stanislaw.tyszka@europarl.europa.eu",
+    "milan.uhrik@europarl.europa.eu"
+  ],
+  eu_65: [
+    "nils.usakovs@europarl.europa.eu",
+    "inese.vaidere@europarl.europa.eu",
+    "ivaylo.valchev@europarl.europa.eu",
+    "adina.valean@europarl.europa.eu",
+    "matthieu.valet@europarl.europa.eu",
+    "kathleen.vanbrempt@europarl.europa.eu",
+    "anouk.vanbrug@europarl.europa.eu",
+    "brigitte.vandenberg@europarl.europa.eu",
+    "tom.vandendriessche@europarl.europa.eu",
+    "kris.vandijck@europarl.europa.eu"
+  ],
+  eu_66: [
+    "reinier.vanlanschot@europarl.europa.eu",
+    "jessika.vanleeuwen@europarl.europa.eu",
+    "roberto.vannacci@europarl.europa.eu",
+    "johan.vanovertveldt@europarl.europa.eu",
+    "kim.vansparrentak@europarl.europa.eu",
+    "alexandre.varaut@europarl.europa.eu",
+    "ana.vasconcelosmartins@europarl.europa.eu",
+    "vlad.voiculescu@europarl.europa.eu",
+    "hilde.vautmans@europarl.europa.eu",
+    "francesco.ventola@europarl.europa.eu"
+  ],
+  eu_67: [
+    "sabine.verheyen@europarl.europa.eu",
+    "yvan.verougstraete@europarl.europa.eu",
+    "aurelijus.veryga@europarl.europa.eu",
+    "marko.vesligaj@europarl.europa.eu",
+    "annamaria.vicsek@europarl.europa.eu",
+    "Catarina.VIEIRA@europarl.europa.eu",
+    "kristian.vigenin@europarl.europa.eu",
+    "harald.vilimsky@europarl.europa.eu",
+    "lorant.vincze@europarl.europa.eu",
+    "marianne.vind@europarl.europa.eu"
+  ],
+  eu_68: [
+    "anders.vistisen@europarl.europa.eu",
+    "mariateresa.vivaldini@europarl.europa.eu",
+    "petar.volgin@europarl.europa.eu",
+    "michael.vonderschulenburg@europarl.europa.eu",
+    "alexandr.vondra@europarl.europa.eu",
+    "axel.voss@europarl.europa.eu",
+    "elissavet.vozemberg@europarl.europa.eu",
+    "veronika.vrecionova@europarl.europa.eu",
+    "adrian.vazquezlazara@europarl.europa.eu",
+    "thomas.waitz@europarl.europa.eu"
+  ],
+  eu_69: [
+    "maria.walsh@europarl.europa.eu",
+    "marionerika.walsmann@europarl.europa.eu",
+    "jorgen.warborn@europarl.europa.eu",
+    "jan-peter.warnke@europarl.europa.eu",
+    "maciej.wasik@europarl.europa.eu",
+    "michal.wawrykiewicz@europarl.europa.eu",
+    "marta.wcislo@europarl.europa.eu",
+    "manfred.weber@europarl.europa.eu",
+    "andrea.wechsler@europarl.europa.eu",
+    "charlie.weimers@europarl.europa.eu"
+  ],
+  eu_70: [
+    "severine.werbrouck@europarl.europa.eu",
+    "emma.wiesner@europarl.europa.eu",
+    "michal.wiezik@europarl.europa.eu",
+    "sophie.wilmes@europarl.europa.eu",
+    "iuliu.winkler@europarl.europa.eu",
+    "angelika.winzig@europarl.europa.eu",
+    "isabel.wiseler@europarl.europa.eu",
+    "jadwiga.wisniewska@europarl.europa.eu",
+    "tiemo.woelken@europarl.europa.eu",
+    "lara.wolters@europarl.europa.eu"
+  ],
+  eu_73: [
+    "lucia.yar@europarl.europa.eu",
+    "stephanie.yon@europarl.europa.eu",
+    "elena.yoncheva@europarl.europa.eu",
+    "maria.zacharia@europarl.europa.eu",
+    "ewa.zajaczkowska-hernik@europarl.europa.eu",
+    "anna.zalewska@europarl.europa.eu",
+    "dainius.zalimas@europarl.europa.eu",
+    "alessandro.zan@europarl.europa.eu",
+    "javier.zarzalejos@europarl.europa.eu",
+    "tomas.zdechovsky@europarl.europa.eu"
+  ]
+};
+
+// Paragraph variations
+const OPENING = [
+  "I am writing to urgently draw your attention to the situation facing the Kurdish people in northeast Syria.",
+  "I wish to bring to your attention the pressing issues confronting the Kurdish communities in Syria.",
+  "I am deeply concerned about the security and welfare of the Kurds in northeastern Syria."
+];
+
+const CONTEXT = [
+  "Kurdish forces were among the most reliable and effective partners in the fight against ISIS.",
+  "The Kurdish militias played a critical role in defeating ISIS and stabilizing the region.",
+  "Throughout the fight against ISIS, the Kurds have consistently demonstrated courage and reliability."
+];
+
+const BETRAYAL = [
+  "Today, despite those sacrifices, Kurdish communities face abandonment.",
+  "Despite their invaluable support, Kurdish populations are now left vulnerable.",
+  "Sadly, the Kurds are at risk of being forsaken after their crucial contributions."
+];
+
+const CONSEQUENCE = [
+  "History shows that abandoning the Kurds leads to long-term instability and moral failure.",
+  "Past events indicate that neglecting the Kurds can result in severe regional consequences.",
+  "Ignoring the plight of Kurdish allies has repeatedly proven disastrous."
+];
+
+const CALL = [
+  "I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.",
+  "Please take immediate action to safeguard the Kurds and advocate for responsible policies.",
+  "Your voice and intervention are critical to prevent a humanitarian crisis."
+];
+
+const CLOSING = [
+  "Silence at this moment is not neutrality.",
+  "Remaining passive will have grave consequences.",
+  "Inaction now will betray both morality and strategic interests."
+];
+
+// Minimal change: dynamic AI-style subject generation
+const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice", "Strong Request"];
+const SUBJECT_BODY = [
+  "Do Not Abandon the Kurds of Syria",
+  "Support Kurdish Allies in Syria",
+  "Protect Kurdish Communities Now",
+  "Act to Safeguard Kurdish Partners"
+];
+const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
+
+// Generate email
+(function () {
+  const batch = getParam("batch");
+  const name  = getParam("name") || "";
+
+  const recipients = EMAILS[batch];
+  if (!recipients) {
+    document.getElementById("status").innerText = "Invalid batch selected.";
+    return;
+  }
+
+  // Compose randomized body
+  const sections = [
+    pick(OPENING),
+    pick(CONTEXT),
+    pick(BETRAYAL),
+    pick(CONSEQUENCE),
+    pick(CALL),
+    pick(CLOSING)
+  ];
+
+  const bodySections = shuffle(sections);
+  let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
+  if (name) body += "\n\nSincerely,\n" + name;
+
+  // Dynamic subject
+  const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
+
+  // BCC recipients
+  const bccList = recipients.join(",");
+
+  // Build mailto URL
+  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Redirect
+  window.location.href = mailto;
+})();
+</script>
+
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kurdish Advocacy Email</title>
+</head>
+<body>
+
+<h3 id="status">Preparing your email…</h3>
+
+<script>
 // Helper to read URL parameters
 function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
@@ -1039,4 +2115,4 @@ const EMAILS = {
 </script>
 
 </body>
-</html>
+</html> -->
