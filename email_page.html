@@ -3,157 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Kurds Advocacy Email</title>
-<style>
-body { font-family: Arial, sans-serif; padding: 20px; }
-button { margin: 5px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
-#batch-list button { display: block; width: 250px; text-align: left; }
-</style>
 </head>
 <body>
-
-<h2 id="title">Select a Group</h2>
-<div id="group-list"></div>
-<div id="batch-list"></div>
-<div id="nav-buttons"></div>
-
 <script>
-// ----- Config -----
-const BATCHES_PER_PAGE = 10;
+// Read URL parameters
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
 
-// Groups and batches
-const GROUPS = {
-    "Senate": Array.from({length: 9}, (_, i) => `senate_${i+1}`),
-    "EU": Array.from({length: 74}, (_, i) => `eu_${i+1}`)
-};
+// Send email automatically
+function sendEmail() {
+  const batch = getParam("batch");
+  const name = getParam("name") || "";
 
-// Batch → Emails mapping (replace with your real emails)
-const EMAILS = {
+  // Example email map
+  const emails = {
     "senate_1": "senate1@example.com,senate2@example.com",
     "senate_2": "senate3@example.com,senate4@example.com",
-    "senate_3": "senate5@example.com,senate6@example.com",
-    "senate_4": "senate7@example.com,senate8@example.com",
-    "senate_5": "senate9@example.com,senate10@example.com",
-    "senate_6": "senate11@example.com,senate12@example.com",
-    "senate_7": "senate13@example.com,senate14@example.com",
-    "senate_8": "senate15@example.com,senate16@example.com",
-    "senate_9": "senate17@example.com,senate18@example.com",
-    // EU batches
     "eu_1": "eu1@example.com,eu2@example.com",
-    "eu_2": "eu3@example.com,eu4@example.com",
-    "eu_3": "eu5@example.com,eu6@example.com",
-    "eu_4": "eu7@example.com,eu8@example.com",
-    "eu_5": "eu9@example.com,eu10@example.com",
-    "eu_6": "eu11@example.com,eu12@example.com",
-    "eu_7": "eu13@example.com,eu14@example.com",
-    "eu_8": "eu15@example.com,eu16@example.com",
-    "eu_9": "eu17@example.com,eu18@example.com",
-    "eu_10": "eu19@example.com,eu20@example.com",
-    "eu_11": "eu21@example.com,eu22@example.com",
-    "eu_12": "eu23@example.com,eu24@example.com",
-    "eu_13": "eu25@example.com,eu26@example.com",
-    "eu_14": "eu27@example.com,eu28@example.com",
-    "eu_15": "eu29@example.com,eu30@example.com",
-    "eu_16": "eu31@example.com,eu32@example.com",
-    "eu_17": "eu33@example.com,eu34@example.com",
-    "eu_18": "eu35@example.com,eu36@example.com",
-    "eu_19": "eu37@example.com,eu38@example.com",
-    "eu_20": "eu39@example.com,eu40@example.com",
-    "eu_21": "eu41@example.com,eu42@example.com",
-    "eu_22": "eu43@example.com,eu44@example.com",
-    "eu_23": "eu45@example.com,eu46@example.com",
-    "eu_24": "eu47@example.com,eu48@example.com",
-    "eu_25": "eu49@example.com,eu50@example.com",
-    "eu_26": "eu51@example.com,eu52@example.com",
-    "eu_27": "eu53@example.com,eu54@example.com",
-    "eu_28": "eu55@example.com,eu56@example.com",
-    "eu_29": "eu57@example.com,eu58@example.com",
-    "eu_30": "eu59@example.com,eu60@example.com",
-    "eu_31": "eu61@example.com,eu62@example.com",
-    "eu_32": "eu63@example.com,eu64@example.com",
-    "eu_33": "eu65@example.com,eu66@example.com",
-    "eu_34": "eu67@example.com,eu68@example.com",
-    "eu_35": "eu69@example.com,eu70@example.com",
-    "eu_36": "eu71@example.com,eu72@example.com",
-    "eu_37": "eu73@example.com,eu74@example.com"
-    // Add remaining EU batches (eu_38 to eu_74) similarly
-};
+    "eu_2": "eu3@example.com,eu4@example.com"
+  };
 
-// ----- State -----
-let currentGroup = null;
-let currentPage = 0;
-let userName = prompt("Enter your name:") || "User";
+  const to = emails[batch];
+  if (!to) {
+    document.body.innerHTML = "<h3>Invalid batch.</h3>";
+    return;
+  }
 
-// ----- Render group selection -----
-function renderGroups() {
-    currentGroup = null;
-    document.getElementById("title").textContent = "Select a Group";
-    document.getElementById("batch-list").innerHTML = "";
-    document.getElementById("nav-buttons").innerHTML = "";
+  const subject = "Support Kurdish Advocacy";
+  const body = `Hello,\n\nPlease support the Kurdish cause.\n\nSincerely,\n${name}`;
 
-    const groupDiv = document.getElementById("group-list");
-    groupDiv.innerHTML = "";
-    for (let group in GROUPS) {
-        const btn = document.createElement("button");
-        btn.textContent = group;
-        btn.onclick = () => { currentGroup = group; currentPage = 0; renderBatches(); };
-        groupDiv.appendChild(btn);
-    }
+  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-// ----- Render batches -----
-function renderBatches() {
-    const batches = GROUPS[currentGroup];
-    const totalPages = Math.ceil(batches.length / BATCHES_PER_PAGE);
-    const startIdx = currentPage * BATCHES_PER_PAGE;
-    const endIdx = Math.min(startIdx + BATCHES_PER_PAGE, batches.length);
-    const visibleBatches = batches.slice(startIdx, endIdx);
-
-    document.getElementById("title").textContent = `${currentGroup} Batches (Page ${currentPage+1}/${totalPages})`;
-    document.getElementById("group-list").innerHTML = "";
-
-    const batchDiv = document.getElementById("batch-list");
-    batchDiv.innerHTML = "";
-    visibleBatches.forEach(batch => {
-        if (EMAILS[batch]) {
-            const btn = document.createElement("button");
-            btn.textContent = batch.replace("_", " ");
-            btn.onclick = () => {
-                const recipients = EMAILS[batch];
-                const subject = encodeURIComponent("Support Kurdish Advocacy");
-                const body = encodeURIComponent(`Hello,\n\nPlease support the Kurdish cause.\n\nSincerely,\n${userName}`);
-                window.location.href = `mailto:${recipients}?subject=${subject}&body=${body}`;
-            };
-            batchDiv.appendChild(btn);
-        }
-    });
-
-    // Navigation
-    const navDiv = document.getElementById("nav-buttons");
-    navDiv.innerHTML = "";
-
-    if (currentPage > 0) {
-        const prev = document.createElement("button");
-        prev.textContent = "⬅ Previous";
-        prev.onclick = () => { currentPage--; renderBatches(); };
-        navDiv.appendChild(prev);
-    }
-
-    if (currentPage < totalPages - 1) {
-        const next = document.createElement("button");
-        next.textContent = "Next ➡";
-        next.onclick = () => { currentPage++; renderBatches(); };
-        navDiv.appendChild(next);
-    }
-
-    const back = document.createElement("button");
-    back.textContent = "🏠 Back to Groups";
-    back.onclick = () => { renderGroups(); };
-    navDiv.appendChild(back);
-}
-
-// ----- Init -----
-renderGroups();
+// Auto-run
+sendEmail();
 </script>
-
 </body>
 </html>
