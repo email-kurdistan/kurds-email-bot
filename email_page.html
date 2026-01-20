@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email Prefill</title>
+</head>
+<body>
+<h2>Email Prefill for Advocacy</h2>
+<form id="emailForm">
+  Your Name: <input type="text" id="userName"><br><br>
+  Subject: <input type="text" id="subject" value="Immediate Military Action Required"><br><br>
+  BCC: <input type="text" id="bcc" value="senator1@example.com,senator2@example.com"><br><br>
+  Body: <textarea id="body">Dear policymakers,</textarea><br><br>
+  <button type="button" onclick="sendEmail()">Open Email App</button>
+</form>
+
+<script>
+function sendEmail() {
+  const name = document.getElementById("userName").value;
+  const subject = encodeURIComponent(document.getElementById("subject").value);
+  const bcc = encodeURIComponent(document.getElementById("bcc").value);
+  const body = encodeURIComponent(document.getElementById("body").value + "\n\nFrom: " + name);
+
+  window.location.href = `mailto:?bcc=${bcc}&subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
