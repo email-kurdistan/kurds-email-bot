@@ -2,43 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kurds Advocacy Email</title>
+<title>Kurdish Advocacy Email</title>
 </head>
 <body>
+
+<h3 id="status">Preparing your email…</h3>
+
 <script>
-// Read URL parameters
+// Helper to read URL parameters
 function getParam(name) {
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
+  return new URLSearchParams(window.location.search).get(name);
 }
 
-// Send email automatically
-function sendEmail() {
-  const batch = getParam("batch");
-  const name = getParam("name") || "";
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
-  // Example email map
-  const emails = {
-    "senate_1": "senate1@example.com,senate2@example.com",
-    "senate_2": "senate3@example.com,senate4@example.com",
-    "eu_1": "eu1@example.com,eu2@example.com",
-    "eu_2": "eu3@example.com,eu4@example.com"
+(function () {
+  const batch = getParam("batch");
+  const name  = getParam("name") || "";
+
+  // Emails for all batches
+  const EMAILS = {
+    senate_1: "senate1@example.com,senate2@example.com",
+    senate_2: "senate3@example.com,senate4@example.com",
+    senate_3: "senate5@example.com,senate6@example.com",
+    // … fill all 9 Senate batches
+    eu_1: "eu1@example.com,eu2@example.com",
+    eu_2: "eu3@example.com,eu4@example.com",
+    // … fill all 74 EU batches
   };
 
-  const to = emails[batch];
-  if (!to) {
-    document.body.innerHTML = "<h3>Invalid batch.</h3>";
+  const recipients = EMAILS[batch];
+  if (!recipients) {
+    document.getElementById("status").innerText = "Invalid batch selected.";
     return;
   }
 
-  const subject = "Support Kurdish Advocacy";
-  const body = `Hello,\n\nPlease support the Kurdish cause.\n\nSincerely,\n${name}`;
+  // Subjects
+  const SUBJECTS = [
+    "Urgent Appeal: Do Not Abandon the Kurds of Syria",
+    "Immediate Concern Regarding Kurdish Allies in Syria"
+  ];
 
-  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+  // Body paragraphs
+  const OPENING = [
+    "I am writing to urgently draw your attention to the situation facing the Kurdish people in northeast Syria."
+  ];
+  const CONTEXT = [
+    "Kurdish forces were among the most reliable and effective partners in the fight against ISIS."
+  ];
+  const BETRAYAL = [
+    "Today, despite those sacrifices, Kurdish communities face abandonment."
+  ];
+  const CONSEQUENCE = [
+    "History shows that abandoning the Kurds leads to long-term instability and moral failure."
+  ];
+  const CALL = [
+    "I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable."
+  ];
+  const CLOSING = [
+    "Silence at this moment is not neutrality."
+  ];
 
-// Auto-run
-sendEmail();
+  // Compose body
+  let body = "Dear Representative / Public Figure,\n\n" +
+             pick(OPENING) + "\n\n" +
+             pick(CONTEXT) + "\n\n" +
+             pick(BETRAYAL) + "\n\n" +
+             pick(CONSEQUENCE) + "\n\n" +
+             pick(CALL) + "\n\n" +
+             pick(CLOSING) + "\n";
+
+  if (name) body += "\nSincerely,\n" + name;
+
+  // Create mailto URL
+  const mailto = `mailto:?bcc=${encodeURIComponent(recipients)}&subject=${encodeURIComponent(pick(SUBJECTS))}&body=${encodeURIComponent(body)}`;
+
+  // Redirect to default mail app
+  window.location.href = mailto;
+})();
 </script>
+
 </body>
 </html>
