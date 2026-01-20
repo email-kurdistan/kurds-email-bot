@@ -2,82 +2,74 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kurdish Advocacy Email</title>
-<style>
-body { font-family: Arial, sans-serif; padding: 20px; }
-button { margin: 5px; padding: 10px 15px; }
-#batchContainer { margin-top: 20px; }
-</style>
+<title>Kurds Advocacy Email</title>
 </head>
 <body>
 
-<h2>Select a group</h2>
-<div id="groupSelection">
-  <button onclick="showBatches('senate')">US Senate</button>
-  <button onclick="showBatches('eu')">EU Parliament</button>
-</div>
-
-<div id="batchContainer" style="display:none;">
-  <button onclick="backToGroups()">Back to main</button>
-  <div id="batches"></div>
-  <button id="prevBtn" onclick="changePage(-1)">Previous</button>
-  <button id="nextBtn" onclick="changePage(1)">Next</button>
-</div>
-
 <script>
-// Your batches
-const GROUPS = {
-  senate: [
-    "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov,jessica_mccune@banks.senate.gov,press@barrasso.senate.gov,press@bennet.senate.gov,spencer_hurwitz@blackburn.senate.gov,maria_mcelwain@blumenthal.senate.gov,Sean_Ryan@bluntrochester.senate.gov,jeff_giertz@booker.senate.gov",
-    "Matthew_Wester@boozman.senate.gov,Sean_Ross@britt.senate.gov,Mike_Reynard@budd.senate.gov,ansley_lacitis@cantwell.senate.gov,kelley_moore@capito.senate.gov,Joe_ramallo@cassidy.senate.gov,Blake_Kernen@collins.senate.gov,will_baskin-gerwitz@coons.senate.gov,natalie_yezbick@cornyn.senate.gov,lauren_wodarski@cortezmasto.senate.gov",
-    // add the rest of senate batches...
-  ],
-  eu: [
-    "mika.aaltola@europarl.europa.eu,maravillas.abadiajover@europarl.europa.eu,magdalena.adamowicz@europarl.europa.eu,georgios.aftias@europarl.europa.eu,oihane.agirregoitiamartinez@europarl.europa.eu,peter.agius@europarl.europa.eu,alex.agiussaliba@europarl.europa.eu,galato.alexandraki@europarl.europa.eu,gregory.allione@europarl.europa.eu,abir.alsahlani@europarl.europa.eu",
-    "nikolaos.anadiotis@europarl.europa.eu,christine.anderson@europarl.europa.eu,li.andersson@europarl.europa.eu,rasmus.andresen@europarl.europa.eu,barry.andrews@europarl.europa.eu,mieke.andriese@europarl.europa.eu,vytenis.andriukaitis@europarl.europa.eu,mathilde.androuet@europarl.europa.eu,marc.angel@europarl.europa.eu,gerolf.annemans@europarl.europa.eu",
-    // add the rest of EU batches...
-  ]
-};
-
-let currentGroup = '';
-let page = 0;
-const perPage = 10;
-
-function showBatches(group) {
-  currentGroup = group;
-  page = 0;
-  document.getElementById('groupSelection').style.display = 'none';
-  document.getElementById('batchContainer').style.display = 'block';
-  renderBatches();
+function getParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
 }
 
-function backToGroups() {
-  document.getElementById('groupSelection').style.display = 'block';
-  document.getElementById('batchContainer').style.display = 'none';
-}
+function sendEmail() {
+  const group = getParam("group");
+  const name = getParam("name") || "";
 
-function renderBatches() {
-  const container = document.getElementById('batches');
-  container.innerHTML = '';
-  const batches = GROUPS[currentGroup];
-  const start = page * perPage;
-  const end = Math.min(start + perPage, batches.length);
-  for (let i = start; i < end; i++) {
-    const btn = document.createElement('button');
-    btn.textContent = `${currentGroup.toUpperCase()} Batch ${i + 1}`;
-    btn.onclick = () => window.location.href = `mailto:?bcc=${batches[i]}&subject=Support Kurdish Advocacy&body=Dear representative,`;
-    container.appendChild(btn);
+  const groups = {
+    senate_1: "senate1@example.com,senate2@example.com",
+    senate_2: "senate3@example.com,senate4@example.com",
+    senate_3: "senate5@example.com,senate6@example.com",
+    senate_4: "senate7@example.com,senate8@example.com",
+    senate_5: "senate9@example.com,senate10@example.com",
+    senate_6: "senate11@example.com,senate12@example.com",
+    senate_7: "senate13@example.com,senate14@example.com",
+    senate_8: "senate15@example.com,senate16@example.com",
+    senate_9: "senate17@example.com,senate18@example.com",
+
+    congress_1: "congress1@example.com,congress2@example.com",
+    congress_2: "congress3@example.com,congress4@example.com",
+    congress_3: "congress5@example.com,congress6@example.com",
+    congress_4: "congress7@example.com,congress8@example.com",
+    congress_5: "congress9@example.com,congress10@example.com",
+    congress_6: "congress11@example.com,congress12@example.com",
+    congress_7: "congress13@example.com,congress14@example.com",
+    congress_8: "congress15@example.com,congress16@example.com",
+    congress_9: "congress17@example.com,congress18@example.com",
+    congress_10: "congress19@example.com,congress20@example.com"
+  };
+
+  const bcc = groups[group];
+  if (!bcc) {
+    document.body.innerHTML = "<h3>Invalid recipient group.</h3>";
+    return;
   }
 
-  // Disable buttons if at start or end
-  document.getElementById('prevBtn').disabled = page === 0;
-  document.getElementById('nextBtn').disabled = end >= batches.length;
+  const subject = "Urgent Appeal: Do Not Abandon the Kurds of Syria";
+  let body = `Dear Representative / Public Figure,
+
+I am writing to urgently call your attention to the unfolding situation facing the Kurdish people in northeast Syria.
+
+The Kurds were among the most effective partners in the fight against ISIS. They sacrificed thousands of lives defending not only their communities, but global security and the values of democracy and human rights.
+
+Today, those same partners face abandonment due to political convenience.
+
+History has shown that betraying the Kurds leads not to stability, but to long-term violence, displacement, and moral failure.
+
+I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.
+
+Silence at this moment is not neutrality.
+`;
+
+  if (name) {
+    body += "\nSincerely,\n" + name;
+  }
+
+  const mailto = `mailto:?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
 }
 
-function changePage(delta) {
-  page += delta;
-  renderBatches();
-}
+sendEmail();
 </script>
 
 </body>
