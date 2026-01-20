@@ -2,26 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email Prefill</title>
+<title>Kurds Advocacy Email</title>
 </head>
 <body>
-<h2>Email Prefill for Advocacy</h2>
-<form id="emailForm">
-  Your Name: <input type="text" id="userName"><br><br>
-  Subject: <input type="text" id="subject" value="Immediate Military Action Required"><br><br>
-  BCC: <input type="text" id="bcc" value="senator1@example.com,senator2@example.com"><br><br>
-  Body: <textarea id="body">Dear policymakers,</textarea><br><br>
-  <button type="button" onclick="sendEmail()">Open Email App</button>
-</form>
+<h2>Kurds Advocacy Email</h2>
+
+<p>Enter your name (optional):</p>
+<input type="text" id="userName" placeholder="Your Name"><br><br>
+
+<button onclick="sendEmail()">Open Gmail with Prefilled Email</button>
 
 <script>
 function sendEmail() {
   const name = document.getElementById("userName").value;
-  const subject = encodeURIComponent(document.getElementById("subject").value);
-  const bcc = encodeURIComponent(document.getElementById("bcc").value);
-  const body = encodeURIComponent(document.getElementById("body").value + "\n\nFrom: " + name);
+  
+  // Hardcoded email details
+  const bcc = encodeURIComponent(
+    "Connor_Lounsbury@alsobrooks.senate.gov," +
+    "kami_capener@hoeven.senate.gov," +
+    "press@baldwin.senate.gov," +
+    "jessica_mccune@banks.senate.gov," +
+    "press@barrasso.senate.gov," +
+    "press@bennet.senate.gov," +
+    "spencer_hurwitz@blackburn.senate.gov," +
+    "maria_mcelwain@blumenthal.senate.gov," +
+    "Sean_Ryan@bluntrochester.senate.gov," +
+    "jeff_giertz@booker.senate.gov"
+  );
 
-  window.location.href = `mailto:?bcc=${bcc}&subject=${subject}&body=${body}`;
+  const subject = encodeURIComponent("Immediate Military Intervention Urgently Required to Halt Mass Killings in Iran");
+
+  const body = encodeURIComponent(
+    "Esteemed policymakers,\n\n" +
+    "This is an urgent, ongoing catastrophe. Civilians in Iran are being murdered in real-time—shot, detained, tortured—while the regime enforces a total internet blackout to conceal these atrocities. Families and medical workers are silenced, and the world must not turn a blind eye.\n\n" +
+    "Leader of this revolution, Prince Reza Pahlavi, calls for immediate military assistance to protect Iranian civilians and protesters today. Inaction costs lives now—history will judge our moral responsibility.\n\n" +
+    "Act decisively—intervene immediately to stop this massacre.\n\n" +
+    (name ? "From: " + name : "")
+  );
+
+  // Gmail compose URL
+  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=&bcc=${bcc}&su=${subject}&body=${body}`;
+
+  // Open in new tab
+  window.open(gmailURL, "_blank");
 }
 </script>
 </body>
