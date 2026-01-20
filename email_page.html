@@ -18,20 +18,63 @@ function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// Define email batches (10 per batch)
+const EMAILS = {
+  // Senate batches
+  senate_1: [
+    "Connor_Lounsbury@alsobrooks.senate.gov",
+    "kami_capener@hoeven.senate.gov",
+    "press@baldwin.senate.gov",
+    "jessica_mccune@banks.senate.gov",
+    "press@barrasso.senate.gov",
+    "press@bennet.senate.gov",
+    "spencer_hurwitz@blackburn.senate.gov",
+    "maria_mcelwain@blumenthal.senate.gov",
+    "Sean_Ryan@bluntrochester.senate.gov",
+    "jeff_giertz@booker.senate.gov"
+  ],
+  senate_2: [
+    "Matthew_Wester@boozman.senate.gov",
+    "Sean_Ross@britt.senate.gov",
+    "Mike_Reynard@budd.senate.gov",
+    "ansley_lacitis@cantwell.senate.gov",
+    "kelley_moore@capito.senate.gov",
+    "Joe_ramallo@cassidy.senate.gov",
+    "Blake_Kernen@collins.senate.gov",
+    "will_baskin-gerwitz@coons.senate.gov",
+    "natalie_yezbick@cornyn.senate.gov",
+    "lauren_wodarski@cortezmasto.senate.gov"
+  ],
+  // EU batches
+  eu_1: [
+    "mika.aaltola@europarl.europa.eu",
+    "maravillas.abadiajover@europarl.europa.eu",
+    "magdalena.adamowicz@europarl.europa.eu",
+    "georgios.aftias@europarl.europa.eu",
+    "oihane.agirregoitiamartinez@europarl.europa.eu",
+    "peter.agius@europarl.europa.eu",
+    "alex.agiussaliba@europarl.europa.eu",
+    "galato.alexandraki@europarl.europa.eu",
+    "gregory.allione@europarl.europa.eu",
+    "abir.alsahlani@europarl.europa.eu"
+  ],
+  eu_2: [
+    "nikolaos.anadiotis@europarl.europa.eu",
+    "christine.anderson@europarl.europa.eu",
+    "li.andersson@europarl.europa.eu",
+    "rasmus.andresen@europarl.europa.eu",
+    "barry.andrews@europarl.europa.eu",
+    "mieke.andriese@europarl.europa.eu",
+    "vytenis.andriukaitis@europarl.europa.eu",
+    "mathilde.androuet@europarl.europa.eu",
+    "marc.angel@europarl.europa.eu",
+    "gerolf.annemans@europarl.europa.eu"
+  ]
+};
+
 (function () {
   const batch = getParam("batch");
   const name  = getParam("name") || "";
-
-  // Emails for all batches
-  const EMAILS = {
-    senate_1: "senate1@example.com,senate2@example.com",
-    senate_2: "senate3@example.com,senate4@example.com",
-    senate_3: "senate5@example.com,senate6@example.com",
-    // … fill all 9 Senate batches
-    eu_1: "eu1@example.com,eu2@example.com",
-    eu_2: "eu3@example.com,eu4@example.com",
-    // … fill all 74 EU batches
-  };
 
   const recipients = EMAILS[batch];
   if (!recipients) {
@@ -76,8 +119,11 @@ function pick(arr) {
 
   if (name) body += "\nSincerely,\n" + name;
 
+  // Join recipients for BCC
+  const bccList = recipients.join(",");
+
   // Create mailto URL
-  const mailto = `mailto:?bcc=${encodeURIComponent(recipients)}&subject=${encodeURIComponent(pick(SUBJECTS))}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(pick(SUBJECTS))}&body=${encodeURIComponent(body)}`;
 
   // Redirect to default mail app
   window.location.href = mailto;
