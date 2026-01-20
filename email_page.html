@@ -15,8 +15,7 @@
 <script>
 function sendEmail() {
   const name = document.getElementById("userName").value;
-  
-  // Hardcoded email details
+
   const bcc = encodeURIComponent(
     "Connor_Lounsbury@alsobrooks.senate.gov," +
     "kami_capener@hoeven.senate.gov," +
@@ -32,18 +31,17 @@ function sendEmail() {
 
   const subject = encodeURIComponent("Immediate Military Intervention Urgently Required to Halt Mass Killings in Iran");
 
-  const body = encodeURIComponent(
+  const bodyText = 
     "Esteemed policymakers,\n\n" +
     "This is an urgent, ongoing catastrophe. Civilians in Iran are being murdered in real-time—shot, detained, tortured—while the regime enforces a total internet blackout to conceal these atrocities. Families and medical workers are silenced, and the world must not turn a blind eye.\n\n" +
     "Leader of this revolution, Prince Reza Pahlavi, calls for immediate military assistance to protect Iranian civilians and protesters today. Inaction costs lives now—history will judge our moral responsibility.\n\n" +
     "Act decisively—intervene immediately to stop this massacre.\n\n" +
-    (name ? "From: " + name : "")
-  );
+    (name ? "From: " + name : "");
 
-  // Gmail compose URL
+  const body = encodeURIComponent(bodyText);
+
   const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=&bcc=${bcc}&su=${subject}&body=${body}`;
 
-  // Open in new tab
   window.open(gmailURL, "_blank");
 }
 </script>
