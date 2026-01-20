@@ -2,96 +2,111 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kurds Advocacy Email</title>
+<title>Kurdish Advocacy Email</title>
 </head>
 <body>
 
+<h3 id="status">Preparing your email…</h3>
+
 <script>
-/* -----------------------------
-   Helpers
------------------------------ */
+/* =============================
+   Utilities
+============================= */
 function getParam(name) {
-  return new URL(window.location.href).searchParams.get(name);
+  return new URLSearchParams(window.location.search).get(name);
 }
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-/* -----------------------------
-   Auto-send logic
------------------------------ */
-function sendEmail() {
+/* =============================
+   Main logic
+============================= */
+(function () {
   const group = getParam("group");
   const name  = getParam("name") || "";
 
-  /* -----------------------------
-     Recipient groups
-  ----------------------------- */
-  const groups = {
+  /* 🔴 EMAIL ADDRESSES GO HERE 🔴 */
+  const RECIPIENTS = {
     senate_1: "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov,jessica_mccune@banks.senate.gov,press@barrasso.senate.gov,press@bennet.senate.gov,spencer_hurwitz@blackburn.senate.gov,maria_mcelwain@blumenthal.senate.gov,Sean_Ryan@bluntrochester.senate.gov,jeff_giertz@booker.senate.gov",
-    senate_2: "press@brown.senate.gov,press@butler.senate.gov,press@cantwell.senate.gov,press@capito.senate.gov,press@cardin.senate.gov,press@carper.senate.gov,press@casey.senate.gov,press@cassidy.senate.gov,press@collins.senate.gov,press@coons.senate.gov"
+    senate_2: "Matthew_Wester@boozman.senate.gov,Sean_Ross@britt.senate.gov,Mike_Reynard@budd.senate.gov,ansley_lacitis@cantwell.senate.gov,kelley_moore@capito.senate.gov,Joe_ramallo@cassidy.senate.gov,Blake_Kernen@collins.senate.gov,will_baskin-gerwitz@coons.senate.gov,natalie_yezbick@cornyn.senate.gov,lauren_wodarski@cortezmasto.senate.gov",
+    senate_3: "caroline_tabler@cotton.senate.gov,Anne_Summerhays@cramer.senate.gov,melanie_lawhorn@crapo.senate.gov,Macarena_Martinez@cruz.senate.gov,Adam_Cloch@curtis.senate.gov,Matt_Lloyd@daines.senate.gov,ben_garmisa@duckworth.senate.gov,emily_hampsten@durbin.senate.gov,palmer_brigham@ernst.senate.gov,tkani_finau@fetterman.senate.gov",
+    senate_4: "chloe_folmar@fischer.senate.gov,jacques_petit@gallego.senate.gov,evan_lukaske@gillibrand.senate.gov,taylor_reidy@lgraham.senate.gov,Clare_Slattery@grassley.senate.gov,audrey_traynor@hagerty.senate.gov,sahil_mehrotra@hassan.senate.gov,Bernadette_Breslin@hawley.senate.gov,caty_payette@heinrich.senate.gov,Anthony_rivera-rodriguez@hickenlooper.senate.gov",
+    senate_5: "george_flynn@hirono.senate.gov,Olivia_tripodi@husted.senate.gov,chris_gallegos@hydesmith.senate.gov,kiersten_pels@ronjohnson.senate.gov,janine_kritschgau@kaine.senate.gov,jacob_peters@kelly.senate.gov,Nick_Petromelis@kennedy.senate.gov,tim_mack@kim.senate.gov,Dana_Youngentob@king.senate.gov",
+    senate_6: "Michael_kikukawa@klobuchar.senate.gov,maria_reynolds@lankford.senate.gov,billy_gribbin@lee.senate.gov,adan_serna@lujan.senate.gov,Katie_Warbinton@lummis.senate.gov,Abigail_Goldring@markey.senate.gov,Payton_Fuller@marshall.senate.gov,robert_steurer@mcconnell.senate.gov,meghan_rodgers@mccormick.senate.gov,Justin_Krakoff@merkley.senate.gov",
+    senate_7: "Brennan_sullivan@peters.senate.gov,chip_unruh@reed.senate.gov,noah_sadlier@ricketts.senate.gov,Madison_hardy@risch.senate.gov,press@rosen.senate.gov,Lydia_Hall@rounds.senate.gov,press@sanders.senate.gov,michael_inacay@schatz.senate.gov,Press@schiff.senate.gov,Chris_Nuelle@schmitt.senate.gov",
+    senate_8: "alex_nguyen@schumer.senate.gov,clare_lattanze@rickscott.senate.gov,tate_mitchell@sheehy.senate.gov,josh_stewart@slotkin.senate.gov,charlotte_hoffman@smith.senate.gov,michael_soukup@sullivan.senate.gov,ryan_wrasse@thune.senate.gov,daniel_keylin@tillis.senate.gov,mallory_jaspers@tuberville.senate.gov,francesca_amodeo@vanhollen.senate.gov",
+    senate_9: "rachel_cohen@warner.senate.gov,press@warnock.senate.gov,alex_sarabia@warren.senate.gov,aaron_white@welch.senate.gov,meaghan_mccabe@whitehouse.senate.gov,keith_chu@wyden.senate.gov,Matt_Lahr@young.senate.gov"
   };
 
-  const bcc = groups[group];
+  const bcc = RECIPIENTS[group];
   if (!bcc) {
-    document.body.innerHTML = "<h3>Invalid recipient group.</h3>";
+    document.getElementById("status").innerText = "Invalid recipient group.";
     return;
   }
 
-  /* -----------------------------
-     Subject rotation
-  ----------------------------- */
-  const subjects = [
+  /* =============================
+     SUBJECT PARAPHRASING
+  ============================= */
+  const SUBJECTS = [
     "Urgent Appeal: Do Not Abandon the Kurds of Syria",
-    "Protect Our Kurdish Allies in Syria",
-    "Urgent Concern Regarding Kurdish Civilians",
-    "Standing With the Kurds Is a Moral Imperative"
+    "Immediate Concern Regarding Kurdish Allies in Syria",
+    "Protect the Kurds of Northeast Syria",
+    "A Moral Obligation Toward Our Kurdish Partners"
   ];
 
-  /* -----------------------------
-     Paragraph variants
-  ----------------------------- */
-  const intro = [
-    "I am writing to urgently call your attention to the situation facing the Kurdish people in northeast Syria.",
-    "This message is sent with deep concern regarding the growing danger confronting Kurdish communities in Syria.",
-    "I wish to draw your immediate attention to the unfolding crisis affecting the Kurds of northeast Syria."
+  /* =============================
+     BODY PARAPHRASING BLOCKS
+  ============================= */
+
+  const OPENING = [
+    "I am writing to urgently draw your attention to the situation facing the Kurdish people in northeast Syria.",
+    "This message is sent with serious concern regarding the growing dangers confronting Kurdish communities in Syria.",
+    "I wish to bring to your immediate attention the unfolding crisis affecting the Kurds of northeast Syria."
   ];
 
-  const context = [
-    "The Kurds were among the most effective partners in the fight against ISIS, sacrificing thousands of lives to defend global security and democratic values.",
-    "During the campaign against ISIS, Kurdish forces stood on the front lines, bearing immense human costs in defense of shared principles.",
-    "Few allies contributed more decisively to defeating ISIS than the Kurds, whose sacrifices benefited the international community."
+  const CONTEXT = [
+    "Kurdish forces were among the most reliable and effective partners in the fight against ISIS, sacrificing thousands of lives to defend global security and democratic values.",
+    "During the campaign against ISIS, the Kurds stood on the front lines, bearing immense human cost in defense of shared international principles.",
+    "Few allies contributed more decisively to defeating ISIS than the Kurds, whose sacrifices benefited the entire international community."
   ];
 
-  const risk = [
-    "Today, those same partners face abandonment driven by short-term political convenience.",
-    "Despite their sacrifices, the Kurds now face isolation and exposure to renewed violence.",
-    "Alarmingly, trusted allies are now left vulnerable due to shifting political priorities."
+  const BETRAYAL = [
+    "Today, despite those sacrifices, Kurdish communities face abandonment driven by short-term political considerations.",
+    "Now, those same partners are being left dangerously exposed due to shifting political priorities.",
+    "Alarmingly, trusted allies now face isolation and renewed threats."
   ];
 
-  const appeal = [
-    "I urge you to speak publicly, support policies that ensure their protection, and hold decision-makers accountable.",
-    "Please use your voice and influence to advocate for concrete measures that guarantee their safety and dignity.",
-    "I respectfully call on you to take a clear stand in defense of Kurdish civilians and their future."
+  const CONSEQUENCE = [
+    "History shows that abandoning the Kurds leads not to stability, but to long-term violence, displacement, and moral failure.",
+    "Past betrayals of the Kurds have consistently resulted in instability and humanitarian catastrophe.",
+    "The consequences of inaction have historically been severe, both morally and strategically."
   ];
 
-  const closing = [
+  const CALL = [
+    "I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.",
+    "Please use your position to advocate for concrete measures that guarantee the safety and dignity of Kurdish civilians.",
+    "I respectfully call on you to take a clear and public stand in defense of the Kurdish people."
+  ];
+
+  const CLOSING = [
     "Silence at this moment is not neutrality.",
     "History will remember how this moment was met.",
     "Failure to act now risks repeating past moral failures."
   ];
 
-  /* -----------------------------
-     Build email body
-  ----------------------------- */
+  /* =============================
+     ASSEMBLE EMAIL (AI-LIKE)
+  ============================= */
   let body =
     "Dear Representative / Public Figure,\n\n" +
-    pick(intro) + "\n\n" +
-    pick(context) + "\n\n" +
-    pick(risk) + "\n\n" +
-    pick(appeal) + "\n\n" +
-    pick(closing) + "\n";
+    pick(OPENING) + "\n\n" +
+    pick(CONTEXT) + "\n\n" +
+    pick(BETRAYAL) + "\n\n" +
+    pick(CONSEQUENCE) + "\n\n" +
+    pick(CALL) + "\n\n" +
+    pick(CLOSING) + "\n";
 
   if (name) {
     body += "\nSincerely,\n" + name;
@@ -99,16 +114,11 @@ function sendEmail() {
 
   const mailto =
     "mailto:?bcc=" + encodeURIComponent(bcc) +
-    "&subject=" + encodeURIComponent(pick(subjects)) +
+    "&subject=" + encodeURIComponent(pick(SUBJECTS)) +
     "&body=" + encodeURIComponent(body);
 
   window.location.href = mailto;
-}
-
-/* -----------------------------
-   Run on load
------------------------------ */
-sendEmail();
+})();
 </script>
 
 </body>
