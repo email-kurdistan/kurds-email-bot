@@ -18,6 +18,7 @@ function sendEmail() {
   const group = getParam("group");
   const name = getParam("name") || "";
 
+  // Recipient groups (example, add more as needed)
   const groups = {
     senate_1: "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov,jessica_mccune@banks.senate.gov,press@barrasso.senate.gov,press@bennet.senate.gov,spencer_hurwitz@blackburn.senate.gov,maria_mcelwain@blumenthal.senate.gov,Sean_Ryan@bluntrochester.senate.gov,jeff_giertz@booker.senate.gov",
     senate_2: "press@brown.senate.gov,press@butler.senate.gov,press@cantwell.senate.gov,press@capito.senate.gov,press@cardin.senate.gov,press@carper.senate.gov,press@casey.senate.gov,press@cassidy.senate.gov,press@collins.senate.gov,press@coons.senate.gov"
@@ -29,16 +30,26 @@ function sendEmail() {
     return;
   }
 
-  const subject = "Immediate Military Intervention Urgently Required to Halt Mass Killings in Iran";
+  // New subject and body
+  const subject = "Urgent Appeal: Do Not Abandon the Kurds of Syria";
 
-  let body =
-    "Esteemed policymakers,\n\n" +
-    "This is an urgent, ongoing catastrophe. Civilians in Iran are being murdered in real-time—shot, detained, tortured—while the regime enforces a total internet blackout to conceal these atrocities.\n\n" +
-    "Leader of this revolution, Prince Reza Pahlavi, calls for immediate military assistance to protect Iranian civilians and protesters today.\n\n" +
-    "Act decisively—intervene immediately to stop this massacre.\n\n";
+  let body = `Dear Representative / Public Figure,
+
+I am writing to urgently call your attention to the unfolding situation facing the Kurdish people in northeast Syria.
+
+The Kurds were among the most effective partners in the fight against ISIS. They sacrificed thousands of lives defending not only their communities, but global security and the values of democracy and human rights.
+
+Today, those same partners face abandonment due to political convenience.
+
+History has shown that betraying the Kurds leads not to stability, but to long-term violence, displacement, and moral failure.
+
+I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.
+
+Silence at this moment is not neutrality.
+`;
 
   if (name) {
-    body += "Sincerely,\n" + name;
+    body += "\nSincerely,\n" + name;
   }
 
   const mailto =
