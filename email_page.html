@@ -7,11 +7,13 @@
 <body>
 
 <script>
+// Helper to read URL parameters
 function getParam(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
 
+// Send email automatically
 function sendEmail() {
   const group = getParam("group");
   const name = getParam("name") || "";
@@ -44,10 +46,11 @@ function sendEmail() {
     "&subject=" + encodeURIComponent(subject) +
     "&body=" + encodeURIComponent(body);
 
+  // Open the default email app
   window.location.href = mailto;
 }
 
-// Auto-run
+// Auto-run on page load
 sendEmail();
 </script>
 
