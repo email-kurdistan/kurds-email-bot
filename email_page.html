@@ -986,50 +986,61 @@ const EMAILS = {
   ]
 };
 
-// Paragraph variations
+// Variations of sentences from the image text
 const OPENING = [
-  "I am writing to urgently draw your attention to the situation facing the Kurdish people in northeast Syria.",
-  "I wish to bring to your attention the pressing issues confronting the Kurdish communities in Syria.",
-  "I am deeply concerned about the security and welfare of the Kurds in northeastern Syria."
+  "This is an urgent appeal.",
+  "I am writing with utmost urgency regarding the Kurds of Syria.",
+  "Please consider this immediate appeal on behalf of Kurdish allies."
 ];
 
-const CONTEXT = [
-  "Kurdish forces were among the most reliable and effective partners in the fight against ISIS.",
-  "The Kurdish militias played a critical role in defeating ISIS and stabilizing the region.",
-  "Throughout the fight against ISIS, the Kurds have consistently demonstrated courage and reliability."
+const HISTORY = [
+  "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
+  "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
+  "Time and again, history shows the US leaving its most important ally vulnerable."
+];
+
+const SACRIFICE = [
+  "The Kurds of Syria sacrificed their sons and daughters to fight the most brutal organization in human history.",
+  "Syrian Kurds risked everything, fighting the deadliest terrorist organization of our time.",
+  "Kurds gave their utmost to defeat ISIS and protect regional stability."
 ];
 
 const BETRAYAL = [
-  "Today, despite those sacrifices, Kurdish communities face abandonment.",
-  "Despite their invaluable support, Kurdish populations are now left vulnerable.",
-  "Sadly, the Kurds are at risk of being forsaken after their crucial contributions."
+  "Today, they are abandoned by the international community and by the Global Coalition to Defeat ISIS.",
+  "Currently, Kurdish communities face betrayal by international partners who once supported them.",
+  "Despite their sacrifices, Kurds are left vulnerable by those who promised protection."
 ];
 
 const CONSEQUENCE = [
-  "History shows that abandoning the Kurds leads to long-term instability and moral failure.",
-  "Past events indicate that neglecting the Kurds can result in severe regional consequences.",
-  "Ignoring the plight of Kurdish allies has repeatedly proven disastrous."
+  "We wake up to the realization that political deals are harming those who fought for freedom.",
+  "Political maneuvers now endanger the Kurds who defended humanity.",
+  "Authoritarian deals divide the spoils of the region at the Kurds' expense."
+];
+
+const FRIENDS = [
+  "Friends who once declared: 'The Kurds no longer need the mountains; we are your friends.' have betrayed them.",
+  "Those who claimed friendship and support have abandoned Kurdish allies.",
+  "Promises of friendship have been broken, leaving the Kurds unprotected."
 ];
 
 const CALL = [
-  "I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.",
-  "Please take immediate action to safeguard the Kurds and advocate for responsible policies.",
-  "Your voice and intervention are critical to prevent a humanitarian crisis."
+  "We will endure, but you must choose: stand with justice or ignore the suffering of the Kurds.",
+  "Your action matters—choose to support Kurdish allies now.",
+  "It is a critical moment: stand with the Kurds or let injustice prevail."
 ];
 
 const CLOSING = [
-  "Silence at this moment is not neutrality.",
-  "Remaining passive will have grave consequences.",
-  "Inaction now will betray both morality and strategic interests."
+  "This appeal is addressed to all who claim humanity and uphold journalistic values.",
+  "We urge you, defenders of justice, to act now in support of the Kurds.",
+  "Those who value freedom and human rights must hear this urgent call."
 ];
 
-// Minimal change: dynamic AI-style subject generation
-const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice", "Strong Request"];
+// Minimal dynamic subject variations
+const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice"];
 const SUBJECT_BODY = [
-  "Do Not Abandon the Kurds of Syria",
-  "Support Kurdish Allies in Syria",
-  "Protect Kurdish Communities Now",
-  "Act to Safeguard Kurdish Partners"
+  "Protect the Kurds of Syria",
+  "Stand with Kurdish Allies",
+  "Do Not Abandon Kurdish Communities"
 ];
 const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
@@ -1044,17 +1055,20 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     return;
   }
 
-  // Compose randomized body
+  // Randomize sentences
   const sections = [
     pick(OPENING),
-    pick(CONTEXT),
+    pick(HISTORY),
+    pick(SACRIFICE),
     pick(BETRAYAL),
     pick(CONSEQUENCE),
+    pick(FRIENDS),
     pick(CALL),
     pick(CLOSING)
   ];
 
   const bodySections = shuffle(sections);
+
   let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
   if (name) body += "\n\nSincerely,\n" + name;
 
@@ -1064,7 +1078,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   // BCC recipients
   const bccList = recipients.join(",");
 
-  // Build mailto URL
+  // Mailto URL
   const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   // Redirect
