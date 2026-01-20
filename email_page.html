@@ -1,68 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Kurds Advocacy Email</title>
+  <meta charset="UTF-8">
+  <title>Email Advocacy</title>
 </head>
 <body>
 
 <script>
-// Helper to read URL parameters
+/* -----------------------------
+   Utility
+----------------------------- */
 function getParam(name) {
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
+  return new URLSearchParams(window.location.search).get(name);
 }
 
-// Send email automatically
-function sendEmail() {
-  const group = getParam("group");
-  const name = getParam("name") || "";
-
-  // Recipient groups (example, add more as needed)
-  const groups = {
-    senate_1: "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov,jessica_mccune@banks.senate.gov,press@barrasso.senate.gov,press@bennet.senate.gov,spencer_hurwitz@blackburn.senate.gov,maria_mcelwain@blumenthal.senate.gov,Sean_Ryan@bluntrochester.senate.gov,jeff_giertz@booker.senate.gov",
-    senate_2: "press@brown.senate.gov,press@butler.senate.gov,press@cantwell.senate.gov,press@capito.senate.gov,press@cardin.senate.gov,press@carper.senate.gov,press@casey.senate.gov,press@cassidy.senate.gov,press@collins.senate.gov,press@coons.senate.gov"
-  };
-
-  const bcc = groups[group];
-  if (!bcc) {
-    document.body.innerHTML = "<h3>Invalid recipient group.</h3>";
-    return;
-  }
-
-  // New subject and body
-  const subject = "Urgent Appeal: Do Not Abandon the Kurds of Syria";
-
-  let body = `Dear Representative / Public Figure,
-
-I am writing to urgently call your attention to the unfolding situation facing the Kurdish people in northeast Syria.
-
-The Kurds were among the most effective partners in the fight against ISIS. They sacrificed thousands of lives defending not only their communities, but global security and the values of democracy and human rights.
-
-Today, those same partners face abandonment due to political convenience.
-
-History has shown that betraying the Kurds leads not to stability, but to long-term violence, displacement, and moral failure.
-
-I urge you to publicly speak out, support policies that ensure their protection, and hold decision-makers accountable.
-
-Silence at this moment is not neutrality.
-`;
-
-  if (name) {
-    body += "\nSincerely,\n" + name;
-  }
-
-  const mailto =
-    "mailto:?bcc=" + encodeURIComponent(bcc) +
-    "&subject=" + encodeURIComponent(subject) +
-    "&body=" + encodeURIComponent(body);
-
-  // Open the default email app
-  window.location.href = mailto;
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Auto-run on page load
-sendEmail();
+/* -----------------------------
+   Inputs
+----------------------------- */
+const group = getParam("group");
+const name  = getParam("name") || "";
+
+/* -----------------------------
+   Recipient groups
+----------------------------- */
+const groups = {
+  senate_1: "Connor_Lounsbury@alsobrooks.senate.gov,kami_capener@hoeven.senate.gov,press@baldwin.senate.gov",
+  senate_2: "press@brown.senate.gov,press@cantwell.senate.gov,press@collins.senate.gov"
+};
+
+if (!group || !groups[group]) {
+  document.body.innerHTML = "<h2>Invalid or missing recipient group.</h2>";
+  throw new Error("Invalid group");
+}
+
+/* -----------------------------
+   Subject rotation
+----------------------------- */
+const subjects = [
+  "Urgent Appeal: Protect the Kurds of Syria",
+  "Do Not Abandon Our Kurdish Allies",
+  "Urgent Concern Regarding Kurdish Civilians in Syria",
+  "Standing With the Kurds: A Moral Imperative"
+];
+
+/* -----------------------------
+   Paragraph pools
+----------------------------- */
+const introVariants = [
+  "I am writing to express urgent concern regarding the situation facing the Kurdish people in northeast Syria.",
+  "This message is sent with deep concern over the escalating risks confronting Kurdish communities in Syria.",
+  "I wish to draw your immediate attention to the unfolding crisis affecting the Kurds in northeast Syria."
+];
+
+const contextVariants = [
+  "Kurdish forces were among the most effective partners in the fight against ISIS, sacrificing thousands of lives to protect global security.",
+  "During the campaign against ISIS, Kurdish fighters stood on the front lines, bearing immense human costs in defense of shared values.",
+  "Few allies contributed more decisively to defeating ISIS than the Kurds, whose sacrifices benefited the international community."
+];
+
+const riskVariants = [
+  "Today, those same partners face abandonment driven by short-term political considerations.",
+  "Despite their sacrifices, the Kurds now face isolation and exposure to renewed violence.",
+  "Alarmingly, trusted allies are now left vulnerable to instability and attack."
+];
+
+const appealVariants = [
+  "I urge you to speak publicly, support concrete protective measures, and ensure accountability in policy decisions.",
+  "Please use your voice and influence to advocate for policies that guarantee their safety and dignity.",
+  "I respectfully call on you to take a clear stand in defense of Kurdish civilians and their future."
+];
+
+const closingVariants = [
+  "Silence at this moment is not neutrality.",
+  "History will remember how this moment was met.",
+  "Failure to act now risks repeating past moral failures."
+];
+
+/* -----------------------------
+   Build email
+----------------------------- */
+const subject = pick(subjects);
+
+let body =
+  `Dear Representative / Public Figure,\n\n` +
+  pick(introVariants) + "\n\n" +
+  pick(contextVariants) + "\n\n" +
+  pick(riskVariants) + "\n\n" +
+  pick(appealVariants) + "\n\n" +
+  pick(closingVariants) + "\n";
+
+if (name) {
+  body += `\nSincerely,\n${name}`;
+}
+
+/* -----------------------------
+   Launch mail client
+----------------------------- */
+const mailto =
+  "mailto:" + encodeURIComponent(groups[group]) +
+  "?subject=" + encodeURIComponent(subject) +
+  "&body=" + encodeURIComponent(body);
+
+window.location.href = mailto;
 </script>
 
 </body>
