@@ -4188,7 +4188,53 @@ const SUBJECT_BODY = [
   "Kurds Suffer While Allies Turn Away"
 ];
 
+const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
+const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice", "Emergency Appeal", "Act Now", "Time-Sensitive Appeal"];
+const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as Militias Attack", "Protect Kurdish Civilians from World’s Neglect", "Kobani and Hak Under Siege, World Silent", "Kurds Facing Genocide While World Watches", "Save Kurdish Families from Violence and Betrayal", "Kurds Left Alone to Militias", "Protect Those Who Defeated ISIS from Abandonment", "Kurds Targeted for Ethnic Purge, World Silent", "Stop the Betrayal of Kurdish Allies", "Kurds Under Threat, International Community Inaction", "Stand with Kurds Before Cities Fall Alone", "Kurdish Civilians Abandoned Amid Atrocities", "World Must Act Before Kurds Are Destroyed", "Kurds Suffer While Allies Turn Away"];
 
+// MAIN LOGIC
+(function () {
+  const batch = getParam("batch");
+  const name  = getParam("name") || "";
+
+  const recipients = EMAILS[batch];
+  if (!recipients) {
+    document.getElementById("status").innerText = "Error: Invalid batch. Use ?batch=senate_1 in URL.";
+    return;
+  }
+
+  // Pick sentences
+  const sections = [
+    pick(OPENING),
+    pick(HISTORY),
+    pick(SACRIFICE),
+    pick(BETRAYAL),
+    pick(CONSEQUENCE),
+    pick(FRIENDS),
+    pick(CALL),
+    pick(CLOSING)
+  ];
+
+  // Join sections with double line breaks for paragraph spacing
+  let body = "Dear Representative / Public Figure,\r\n\r\n" + sections.join("\r\n\r\n");
+  if (name) body += "\r\n\r\nSincerely,\r\n" + name;
+
+  // Dynamic subject
+  const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
+
+  // BCC recipients
+  const bccList = recipients.join(",");
+
+  // Construct URL with proper encoding for breaks
+  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Redirect
+  window.location.href = mailto;
+})();
+</script>
+</body>
+</html>
+<!--
 // Generate email
 (function () {
   const batch = getParam("batch");
@@ -4232,4 +4278,4 @@ const SUBJECT_BODY = [
 </script>
 
 </body>
-</html>
+</html> -->
