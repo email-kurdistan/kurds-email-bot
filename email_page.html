@@ -4142,7 +4142,7 @@ const EMAILS = {
     "report@aiusa.org"
   ]
 };
-
+<script>
 // Variations of sentences from the image text
 const OPENING = [
   "This is an urgent appeal.",
@@ -4201,7 +4201,16 @@ const SUBJECT_BODY = [
 ];
 const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
-// Generate email
+// Helper functions
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+// Main email generation
 (function () {
   const batch = getParam("batch");
   const name  = getParam("name") || "";
@@ -4226,8 +4235,11 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
   const bodySections = shuffle(sections);
 
-  let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
-  if (name) body += "\n\nSincerely,\n" + name;
+  // Use %0D%0A for proper line breaks
+  let body = "Dear Representative / Public Figure,%0D%0A%0D%0A" 
+           + bodySections.join("%0D%0A%0D%0A");
+
+  if (name) body += "%0D%0A%0D%0ASincerely,%0D%0A" + name;
 
   // Dynamic subject
   const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
@@ -4241,7 +4253,117 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   // Redirect
   window.location.href = mailto;
 })();
+
+// Dummy getParam for demo (replace with your actual logic)
+function getParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
 </script>
+
+<div id="status"></div>
 
 </body>
 </html>
+// // Variations of sentences from the image text
+// const OPENING = [
+//   "This is an urgent appeal.",
+//   "I am writing with utmost urgency regarding the Kurds of Syria.",
+//   "Please consider this immediate appeal on behalf of Kurdish allies."
+// ];
+
+// const HISTORY = [
+//   "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
+//   "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
+//   "Time and again, history shows the US leaving its most important ally vulnerable."
+// ];
+
+// const SACRIFICE = [
+//   "The Kurds of Syria sacrificed their sons and daughters to fight the most brutal organization in human history.",
+//   "Syrian Kurds risked everything, fighting the deadliest terrorist organization of our time.",
+//   "Kurds gave their utmost to defeat ISIS and protect regional stability."
+// ];
+
+// const BETRAYAL = [
+//   "Today, they are abandoned by the international community and by the Global Coalition to Defeat ISIS.",
+//   "Currently, Kurdish communities face betrayal by international partners who once supported them.",
+//   "Despite their sacrifices, Kurds are left vulnerable by those who promised protection."
+// ];
+
+// const CONSEQUENCE = [
+//   "We wake up to the realization that political deals are harming those who fought for freedom.",
+//   "Political maneuvers now endanger the Kurds who defended humanity.",
+//   "Authoritarian deals divide the spoils of the region at the Kurds' expense."
+// ];
+
+// const FRIENDS = [
+//   "Friends who once declared: 'The Kurds no longer need the mountains; we are your friends.' have betrayed them.",
+//   "Those who claimed friendship and support have abandoned Kurdish allies.",
+//   "Promises of friendship have been broken, leaving the Kurds unprotected."
+// ];
+
+// const CALL = [
+//   "We will endure, but you must choose: stand with justice or ignore the suffering of the Kurds.",
+//   "Your action matters—choose to support Kurdish allies now.",
+//   "It is a critical moment: stand with the Kurds or let injustice prevail."
+// ];
+
+// const CLOSING = [
+//   "This appeal is addressed to all who claim humanity and uphold journalistic values.",
+//   "We urge you, defenders of justice, to act now in support of the Kurds.",
+//   "Those who value freedom and human rights must hear this urgent call."
+// ];
+
+// // Minimal dynamic subject variations
+// const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice"];
+// const SUBJECT_BODY = [
+//   "Protect the Kurds of Syria",
+//   "Stand with Kurdish Allies",
+//   "Do Not Abandon Kurdish Communities"
+// ];
+// const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
+
+// // Generate email
+// (function () {
+//   const batch = getParam("batch");
+//   const name  = getParam("name") || "";
+
+//   const recipients = EMAILS[batch];
+//   if (!recipients) {
+//     document.getElementById("status").innerText = "Invalid batch selected.";
+//     return;
+//   }
+
+//   // Randomize sentences
+//   const sections = [
+//     pick(OPENING),
+//     pick(HISTORY),
+//     pick(SACRIFICE),
+//     pick(BETRAYAL),
+//     pick(CONSEQUENCE),
+//     pick(FRIENDS),
+//     pick(CALL),
+//     pick(CLOSING)
+//   ];
+
+//   const bodySections = shuffle(sections);
+
+//   let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
+//   if (name) body += "\n\nSincerely,\n" + name;
+
+//   // Dynamic subject
+//   const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
+
+//   // BCC recipients
+//   const bccList = recipients.join(",");
+
+//   // Mailto URL
+//   const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+//   // Redirect
+//   window.location.href = mailto;
+// })();
+// </script>
+
+// </body>
+// </html>
