@@ -4106,87 +4106,64 @@ const EMAILS = {
     "dana_coffield@ziffdavis.com",
   ]
 };
-// Opening urgency with situation explained
+
+// Variations of sentences from the image text
 const OPENING = [
-  "This is an urgent appeal regarding an unfolding crisis in northeast Syria, where Kurdish-held areas are under attack by Syrian and Turkish-backed militias. ISIS detainees are escaping from destabilized prisons, and the situation is escalating rapidly—act now and be their voice before more lives are lost.",
-  "I am writing with immediate concern over the rapidly deteriorating situation in northeast Syria, where the Kurdish-led SDF, who defeated ISIS at enormous cost, are now being pushed out of their cities and defensive positions. The world must step in before it’s too late, or ISIS will rise again.",
-  "This message concerns a fast-moving humanitarian and security disaster: as Kurdish forces withdraw, ISIS detention facilities are destabilizing, and detainees are escaping. Militias capturing Kurdish cities include former ISIS members and sympathizers. Your voice and action can help protect them and prevent a larger catastrophe.",
-  "Please consider this an emergency appeal on behalf of Kurdish allies, who are now facing direct attacks while still maintaining prisons and camps holding thousands of ISIS fighters and their families. Immediate intervention is critical to avoid another wave of terror.",
-  "I write with alarm at events that risk undoing years of counterterrorism efforts, threatening both Kurdish civilians and global security. Kurdish girls and civilians are being abused as militias advance, while the world watches. Stand up, be their voice, and ensure immediate international support before chaos spreads further."
+  "This is an urgent appeal.",
+  "I am writing with utmost urgency regarding the Kurds of Syria.",
+  "Please consider this immediate appeal on behalf of Kurdish allies."
 ];
 
 const HISTORY = [
-  "The Kurdish-led SDF were the boots on the ground that dismantled ISIS and stabilized large parts of Syria, fighting street by street and burying thousands of their own.",
-  "Kurdish forces took the heaviest toll defeating one of the deadliest terrorist groups, protecting civilians and global security.",
-  "Years of counterterrorism success were secured by the courage and sacrifice of Kurdish fighters, who operated with minimal international support."
+  "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
+  "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
+  "Time and again, history shows the US leaving its most important ally vulnerable."
 ];
 
 const SACRIFICE = [
-  "The Kurds of Syria sacrificed their sons and daughters, facing unimaginable danger, to fight ISIS and shield the world from terror.",
-  "Syrian Kurds risked everything in brutal urban warfare, often with little support from the international community.",
-  "Kurds gave their utmost to defeat ISIS and protect regional stability, guarding detainees and camps while paying the ultimate price themselves."
+  "The Kurds of Syria sacrificed their sons and daughters to fight the most brutal organization in human history.",
+  "Syrian Kurds risked everything, fighting the deadliest terrorist organization of our time.",
+  "Kurds gave their utmost to defeat ISIS and protect regional stability."
 ];
 
 const BETRAYAL = [
-  "Today, these same Kurdish forces are being abandoned by the international community and by allies who once relied on them, leaving civilians exposed to deadly attacks.",
-  "Syrian militias, including ISIS sympathizers, now attack Kurdish cities while the world remains silent. Despite their immense sacrifices, Kurds are left vulnerable.",
-  "Promises of protection have been broken, allowing militias to push Kurds from their own cities and seize control of prisons and camps."
+  "Today, they are abandoned by the international community and by the Global Coalition to Defeat ISIS.",
+  "Currently, Kurdish communities face betrayal by international partners who once supported them.",
+  "Despite their sacrifices, Kurds are left vulnerable by those who promised protection."
 ];
 
 const CONSEQUENCE = [
-  "Political deals and convenience are endangering the very people who fought for freedom and global security, and ISIS detainees are re-entering the streets.",
-  "Weakening Kurdish forces and leaving prisons unprotected risks the resurgence of terrorism in the region.",
-  "Authoritarian deals and power plays divide the spoils of the region at the Kurds' expense, undermining years of counterterrorism progress and enabling atrocities."
+  "We wake up to the realization that political deals are harming those who fought for freedom.",
+  "Political maneuvers now endanger the Kurds who defended humanity.",
+  "Authoritarian deals divide the spoils of the region at the Kurds' expense."
 ];
 
 const FRIENDS = [
-  "Friends who once praised Kurdish courage have retreated, leaving allies unprotected against violent attacks and human rights abuses.",
-  "Those who declared solidarity with the Kurds now abandon them in their hour of need, while militias commit atrocities on civilians.",
-  "Promises of friendship and mutual support have been broken, leaving the Kurds to face overwhelming threats alone."
+  "Friends who once declared: 'The Kurds no longer need the mountains; we are your friends.' have betrayed them.",
+  "Those who claimed friendship and support have abandoned Kurdish allies.",
+  "Promises of friendship have been broken, leaving the Kurds unprotected."
 ];
 
 const CALL = [
-  "We will endure, but the world must choose: stand with justice and protect the Kurds, or allow this injustice and terror to continue unchecked.",
-  "Your action matters—speak up, be their voice, and support Kurdish allies before ISIS regains strength and civilians suffer further.",
-  "It is a critical moment: stand with the Kurds, defend human rights, and prevent a humanitarian and security disaster from escalating."
+  "We will endure, but you must choose: stand with justice or ignore the suffering of the Kurds.",
+  "Your action matters—choose to support Kurdish allies now.",
+  "It is a critical moment: stand with the Kurds or let injustice prevail."
 ];
 
 const CLOSING = [
-  "This appeal is addressed to all who claim to uphold humanity, justice, and journalistic integrity—act now to support the Kurds.",
-  "We urge you, defenders of justice and global security, to intervene immediately, protect Kurdish civilians, and secure ISIS prisons and camps.",
-  "Those who value freedom, human rights, and the rule of law must hear this urgent call and act decisively before catastrophe spreads further."
+  "This appeal is addressed to all who claim humanity and uphold journalistic values.",
+  "We urge you, defenders of justice, to act now in support of the Kurds.",
+  "Those who value freedom and human rights must hear this urgent call."
 ];
 
-
-const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
-
-const SUBJECT_PREFIX = [
-  "Urgent Appeal",
-  "Immediate Action Required",
-  "Critical Notice",
-  "Emergency Appeal",
-  "Act Now",
-  "Time-Sensitive Appeal"
-];
-
+// Minimal dynamic subject variations
+const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice"];
 const SUBJECT_BODY = [
-  "Stop the Ethnic Cleansing of Kurds",
-  "Kurds Abandoned as Militias Attack",
-  "Protect Kurdish Civilians from World’s Neglect",
-  "Kobani and Hak Under Siege, World Silent",
-  "Kurds Facing Genocide While World Watches",
-  "Save Kurdish Families from Violence and Betrayal",
-  "Kurds Left Alone to Militias",
-  "Protect Those Who Defeated ISIS from Abandonment",
-  "Kurds Targeted for Ethnic Purge, World Silent",
-  "Stop the Betrayal of Kurdish Allies",
-  "Kurds Under Threat, International Community Inaction",
-  "Stand with Kurds Before Cities Fall Alone",
-  "Kurdish Civilians Abandoned Amid Atrocities",
-  "World Must Act Before Kurds Are Destroyed",
-  "Kurds Suffer While Allies Turn Away"
+  "Protect the Kurds of Syria",
+  "Stand with Kurdish Allies",
+  "Do Not Abandon Kurdish Communities"
 ];
-
+const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
 // Generate email
 (function () {
