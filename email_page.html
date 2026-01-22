@@ -4215,9 +4215,16 @@ const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as 
     pick(CLOSING)
   ];
 
-  // Join sections with double line breaks for paragraph spacing
-  let body = "Dear Representative / Public Figure,\r\n\r\n" + sections.join("\r\n\r\n");
-  if (name) body += "\r\n\r\nSincerely,\r\n" + name;
+  // We define the paragraph break manually as a URL-encoded double return
+  const paraBreak = "%0D%0A%0D%0A";
+  const lineBreak = "%0D%0A";
+
+  // Build the body using the encoded breaks directly
+  let body = "Dear Representative / Public Figure," + paraBreak + sections.join(paraBreak);
+  
+  if (name) {
+    body += paraBreak + "Sincerely," + lineBreak + name;
+  }
 
   // Dynamic subject
   const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
@@ -4225,8 +4232,8 @@ const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as 
   // BCC recipients
   const bccList = recipients.join(",");
 
-  // Construct URL with proper encoding for breaks
-  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Construct URL - Note: body is already encoded so we don't wrap it in encodeURIComponent again
+  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${body}`;
 
   // Redirect
   window.location.href = mailto;
