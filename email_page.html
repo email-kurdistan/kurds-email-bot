@@ -4199,11 +4199,12 @@ const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as 
 
   const recipients = EMAILS[batch];
   if (!recipients) {
-    document.getElementById("status").innerText = "Invalid batch selected.";
+    const statusEl = document.getElementById("status");
+    if (statusEl) statusEl.innerText = "Invalid batch selected.";
     return;
   }
 
-  // Randomize sentences
+  // Pick sentences
   const sections = [
     pick(OPENING),
     pick(HISTORY),
@@ -4215,10 +4216,19 @@ const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as 
     pick(CLOSING)
   ];
 
+  // Randomize the order of the chosen sections
   const bodySections = shuffle(sections);
 
-  let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
-  if (name) body += "\n\nSincerely,\n" + name;
+  // Use %0D%0A for line breaks - this is the "magic" for mailto paragraphs
+  const NL = "%0D%0A";
+  const DNL = NL + NL; // Double newline for paragraphs
+
+  // Build the body string manually with encoded breaks
+  let body = "Dear Representative / Public Figure," + DNL + bodySections.join(DNL);
+  
+  if (name) {
+    body += DNL + "Sincerely," + NL + name;
+  }
 
   // Dynamic subject
   const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
@@ -4226,13 +4236,10 @@ const SUBJECT_BODY = ["Stop the Ethnic Cleansing of Kurds", "Kurds Abandoned as 
   // BCC recipients
   const bccList = recipients.join(",");
 
-  // Mailto URL
-  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Construct Mailto URL
+  // We don't encode the 'body' again because we used %0D%0A manually
+  const mailto = `mailto:?bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${body}`;
 
   // Redirect
   window.location.href = mailto;
 })();
-</script>
-
-</body>
-</html> 
