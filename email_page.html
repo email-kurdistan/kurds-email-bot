@@ -4107,93 +4107,178 @@ const EMAILS = {
   ]
 };
 
-// Variations of sentences from the image text
+// // Variations of sentences from the image text
+// const OPENING = [
+//   "This is an urgent appeal.",
+//   "I am writing with utmost urgency regarding the Kurds of Syria.",
+//   "Please consider this immediate appeal on behalf of Kurdish allies."
+// ];
+
+// const HISTORY = [
+//   "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
+//   "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
+//   "Time and again, history shows the US leaving its most important ally vulnerable."
+// ];
+
+// const SACRIFICE = [
+//   "The Kurds of Syria bore the human cost of dismantling the most violent jihadist organization of our era.",
+//   "Syrian Kurds absorbed the brutality of ISIS so that others would not have to.",
+//   "Thousands of Kurdish lives were spent confronting a threat the world claimed to oppose.",
+//   "While others debated policy, Kurdish fighters confronted ISIS face to face.",
+//   "The defeat of ISIS was purchased, in large part, with Kurdish blood.",
+//   "Kurds fought not for ideology, but to prevent barbarism from spreading further.",
+//   "The Kurds stood between civilization and chaos when few others would.",
+//   "They confronted ISIS knowing there would be no safety net if things went wrong."
+// ];
+
+// const BETRAYAL = [
+//   "Now, those same Kurds are treated as disposable after serving a global interest.",
+//   "Having fulfilled their role, the Kurds are being quietly written out of the moral equation.",
+//   "International partners retreat, leaving Kurdish communities exposed to predictable violence.",
+//   "The coalition that benefited from Kurdish sacrifice now avoids responsibility for its aftermath.",
+//   "Support was conditional; abandonment is permanent.",
+//   "Promises made under the banner of shared values are now conveniently forgotten.",
+//   "The Kurds are learning, again, the cost of trusting powerful allies.",
+//   "This is not strategy—it is moral negligence."
+// ];
+
+// const CONSEQUENCE = [
+//   "Such decisions do not merely harm the Kurds; they corrode the credibility of democratic alliances.",
+//   "Abandonment sends a clear signal to future allies: loyalty will not be reciprocated.",
+//   "These choices normalize the idea that ethical commitments expire when inconvenient.",
+//   "The long-term cost of betrayal is instability, resentment, and radicalization.",
+//   "We should not be surprised when future partners hesitate to trust our assurances.",
+//   "Moral incoherence today becomes strategic failure tomorrow.",
+//   "Short-term political convenience is being prioritized over long-term responsibility.",
+//   "History will not struggle to identify who failed whom."
+// ];
+
+// const FRIENDS = [
+//   "The claim that the Kurds no longer needed the mountains was a declaration of trust—now revealed as naïve.",
+//   "Those who spoke of partnership and shared values have quietly stepped away.",
+//   "Friendship, it turns out, was contingent on political comfort.",
+//   "Allies who once praised Kurdish courage now speak only in evasions.",
+//   "The language of solidarity has been replaced by silence.",
+//   "What was framed as friendship now looks like transactional use.",
+//   "Support was loud when convenient and absent when costly.",
+//   "The Kurds were treated as partners in war, but liabilities in peace."
+// ];
+
+// const CALL = [
+//   "This moment demands clarity: either principles matter, or they do not.",
+//   "If words like loyalty and justice mean anything, now is the time to demonstrate it.",
+//   "Silence in the face of this betrayal is itself a moral choice.",
+//   "You can either acknowledge this failure or help normalize it.",
+//   "Ethical consistency requires action, not expressions of concern.",
+//   "There is still time to act—but not to pretend ignorance.",
+//   "The question is not whether the Kurds will endure, but whether we will be complicit.",
+//   "Doing nothing is not neutrality; it is endorsement."
+// ];
+
+// const CLOSING = [
+//   "This appeal is directed at those who claim to value reason, evidence, and moral responsibility.",
+//   "If human rights are more than rhetorical tools, they apply here.",
+//   "Those committed to truth must resist convenient amnesia.",
+//   "Journalistic integrity requires naming betrayal when it occurs.",
+//   "History is shaped less by villains than by bystanders with excuses.",
+//   "This is a test of whether stated values survive political pressure.",
+//   "The facts are clear; what remains unclear is our response.",
+//   "To look away now is to accept the outcome as justified."
+// ];
+
+// Opening urgency
 const OPENING = [
-  "This is an urgent appeal.",
-  "I am writing with utmost urgency regarding the Kurds of Syria.",
-  "Please consider this immediate appeal on behalf of Kurdish allies."
+  "This is an urgent appeal regarding an unfolding security and humanitarian disaster.",
+  "I am writing with immediate concern over events in northeast Syria.",
+  "This message concerns a rapidly escalating crisis with global consequences.",
+  "Please consider this an emergency appeal on behalf of Kurdish allies."
 ];
 
+// Context / history
 const HISTORY = [
-  "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
-  "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
-  "Time and again, history shows the US leaving its most important ally vulnerable."
+  "The Kurdish-led SDF was the primary ground force that dismantled ISIS.",
+  "Kurdish forces fought street by street to defeat ISIS and secure the region.",
+  "ISIS was territorially defeated largely through Kurdish sacrifice.",
+  "The world’s most dangerous terrorist movement was stopped by Kurdish fighters on the ground."
 ];
 
+// Sacrifice
 const SACRIFICE = [
-  "The Kurds of Syria bore the human cost of dismantling the most violent jihadist organization of our era.",
-  "Syrian Kurds absorbed the brutality of ISIS so that others would not have to.",
-  "Thousands of Kurdish lives were spent confronting a threat the world claimed to oppose.",
-  "While others debated policy, Kurdish fighters confronted ISIS face to face.",
-  "The defeat of ISIS was purchased, in large part, with Kurdish blood.",
-  "Kurds fought not for ideology, but to prevent barbarism from spreading further.",
-  "The Kurds stood between civilization and chaos when few others would.",
-  "They confronted ISIS knowing there would be no safety net if things went wrong."
+  "Thousands of Kurdish men and women died fighting ISIS so others would not have to.",
+  "Kurdish fighters absorbed the full brutality of ISIS on behalf of the world.",
+  "While others debated policy, Kurds confronted ISIS directly.",
+  "The defeat of ISIS was paid for with Kurdish lives.",
+  "Kurds fought knowing there would be no safety net if abandoned."
 ];
 
+// Betrayal / current reality
 const BETRAYAL = [
-  "Now, those same Kurds are treated as disposable after serving a global interest.",
-  "Having fulfilled their role, the Kurds are being quietly written out of the moral equation.",
-  "International partners retreat, leaving Kurdish communities exposed to predictable violence.",
-  "The coalition that benefited from Kurdish sacrifice now avoids responsibility for its aftermath.",
-  "Support was conditional; abandonment is permanent.",
-  "Promises made under the banner of shared values are now conveniently forgotten.",
-  "The Kurds are learning, again, the cost of trusting powerful allies.",
-  "This is not strategy—it is moral negligence."
+  "Today, those same forces are being attacked, weakened, and abandoned.",
+  "Kurdish communities are under assault by militias operating under the Syrian army’s name.",
+  "Credible footage shows abuses, executions, kidnappings, and ethnic targeting of Kurds.",
+  "Kurdish women who fought ISIS are now being publicly humiliated and captured.",
+  "This is not stabilization—it is collective punishment."
 ];
 
+// ISIS consequence
 const CONSEQUENCE = [
-  "Such decisions do not merely harm the Kurds; they corrode the credibility of democratic alliances.",
-  "Abandonment sends a clear signal to future allies: loyalty will not be reciprocated.",
-  "These choices normalize the idea that ethical commitments expire when inconvenient.",
-  "The long-term cost of betrayal is instability, resentment, and radicalization.",
-  "We should not be surprised when future partners hesitate to trust our assurances.",
-  "Moral incoherence today becomes strategic failure tomorrow.",
-  "Short-term political convenience is being prioritized over long-term responsibility.",
-  "History will not struggle to identify who failed whom."
+  "As Kurdish forces are pushed back, ISIS detainees are escaping.",
+  "Prisons holding ISIS fighters are collapsing amid the chaos.",
+  "Reuters and Fox News report ISIS detainees breaking free as security unravels.",
+  "Weakening the SDF directly enables ISIS to regroup.",
+  "This is not a local issue—it is a global security failure."
 ];
 
+// Trust / alliance
 const FRIENDS = [
-  "The claim that the Kurds no longer needed the mountains was a declaration of trust—now revealed as naïve.",
-  "Those who spoke of partnership and shared values have quietly stepped away.",
-  "Friendship, it turns out, was contingent on political comfort.",
-  "Allies who once praised Kurdish courage now speak only in evasions.",
-  "The language of solidarity has been replaced by silence.",
-  "What was framed as friendship now looks like transactional use.",
-  "Support was loud when convenient and absent when costly.",
-  "The Kurds were treated as partners in war, but liabilities in peace."
+  "The Kurds were consistent allies to the United States and the coalition.",
+  "They guarded ISIS prisons for years at enormous cost.",
+  "They did not turn on their partners, even when abandoned.",
+  "Loyalty was met with silence.",
+  "Abandoning allies now signals that partnership is temporary."
 ];
 
+// Call to action
 const CALL = [
-  "This moment demands clarity: either principles matter, or they do not.",
-  "If words like loyalty and justice mean anything, now is the time to demonstrate it.",
-  "Silence in the face of this betrayal is itself a moral choice.",
-  "You can either acknowledge this failure or help normalize it.",
-  "Ethical consistency requires action, not expressions of concern.",
-  "There is still time to act—but not to pretend ignorance.",
-  "The question is not whether the Kurds will endure, but whether we will be complicit.",
-  "Doing nothing is not neutrality; it is endorsement."
+  "Immediate action is required.",
+  "Silence at this moment is not neutrality.",
+  "There is still time to prevent a larger catastrophe.",
+  "Failure to act now will have consequences far beyond Syria.",
+  "This is a test of whether stated values carry real weight."
 ];
 
+// Specific demands
+const DEMANDS = [
+  "Immediate international protection for Kurdish civilians.",
+  "International monitoring and protection of ISIS detention facilities.",
+  "Political guarantees for decentralization and Kurdish self-governance.",
+  "Urgent intervention to prevent ISIS reconstitution."
+];
+
+// Closing
 const CLOSING = [
-  "This appeal is directed at those who claim to value reason, evidence, and moral responsibility.",
-  "If human rights are more than rhetorical tools, they apply here.",
-  "Those committed to truth must resist convenient amnesia.",
-  "Journalistic integrity requires naming betrayal when it occurs.",
-  "History is shaped less by villains than by bystanders with excuses.",
-  "This is a test of whether stated values survive political pressure.",
-  "The facts are clear; what remains unclear is our response.",
-  "To look away now is to accept the outcome as justified."
+  "History will record who acted and who remained silent.",
+  "Abandonment today becomes terror tomorrow.",
+  "Ignoring this crisis guarantees its return on a larger scale.",
+  "The cost of inaction will be paid globally.",
+  "This moment demands responsibility, not delay."
 ];
 
-// Expanded subject variations (still minimal, serious tone)
+// Subject lines
 const SUBJECT_PREFIX = [
-  "Moral Failure",
-  "Urgent Ethical Appeal",
-  "A Matter of Responsibility",
-  "This Requires Your Attention",
-  "An Uncomfortable Truth"
+  "Urgent: Kurdish Allies Under Attack, ISIS Re-Emerging",
+  "Abandoning the Kurds Is Releasing ISIS",
+  "Kurdish Forces Crushed, Global Security at Risk",
+  "The Kurds Who Defeated ISIS Are Being Sacrificed",
+  "Betraying Kurdish Allies Endangers Us All",
+  "Kurdish Cities Fall While ISIS Prisoners Escape",
+  "This Is How ISIS Returns: By Abandoning the Kurds",
+  "From Kobani to Chaos: Kurdish Defeat Means ISIS Revival",
+  "The Cost of Abandoning Kurdish Partners",
+  "Silence as Kurdish Defenders Are Overrun"
 ];
+
+
 
 const SUBJECT_BODY = [
   "The Abandonment of the Kurds",
