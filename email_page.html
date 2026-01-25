@@ -4213,15 +4213,22 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CLOSING)
   ];
 
-  const SEP = "\n\n";
+
+  // Paragraph separator = CRLF double for blank line between paragraphs
+  const SEP = "\r\n\r\n";
+  
   let mailBody = "Dear Representative / Public Figure," + SEP +
                  sections.join(SEP);
-
+  
   if (name) {
-    mailBody += SEP + "Sincerely,\n" + name;
+    mailBody += SEP + "Sincerely,\r\n" + name;
   }
-
+  
+  // Encode entire body after line breaks
   const encodedBody = encodeURIComponent(mailBody);
+
+
+  
   const subject =
     `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
 
