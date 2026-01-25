@@ -4141,9 +4141,6 @@ const EMAILS = {
     "report@aiusa.org"
   ]
 };
-
-
-
 // Email content sections
 const OPENING = [
   "I write on behalf of the Kurdish people in Syria, whose courage and sacrifice have long protected not only their communities but the wider world.",
@@ -4211,7 +4208,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CLOSING)
   ];
 
-  const SEP = "\n\n— — —\n\n";  // Paragraph separator with real line breaks
+  const SEP = "\n\n— — —\n\n";  // Use real newlines for proper line breaks
 
   const bodySections = shuffle(sections);
 
