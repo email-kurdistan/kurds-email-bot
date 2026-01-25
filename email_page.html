@@ -8,7 +8,6 @@
 
 <h3 id="status">Preparing your email…</h3>
 
-<!-- Script starts here -->
 <script>
 // Helper functions
 function getParam(name) {
@@ -22,7 +21,6 @@ function pick(arr) {
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
-
 
 
 // Define email batches (10 per batch)
@@ -4144,6 +4142,8 @@ const EMAILS = {
   ]
 };
 
+
+
 // Email content sections
 const OPENING = [
   "I write on behalf of the Kurdish people in Syria, whose courage and sacrifice have long protected not only their communities but the wider world.",
@@ -4211,8 +4211,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CLOSING)
   ];
 
-  const NL = "%0D%0A";  // CRLF for mailto
-  const SEP = NL + NL + "— — —" + NL + NL;  // Paragraph separator
+  const SEP = "\n\n— — —\n\n";  // Paragraph separator with real line breaks
 
   const bodySections = shuffle(sections);
 
@@ -4222,7 +4221,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
   // Add sender name safely
   if (name) {
-    mailBody += SEP + "Sincerely," + NL + encodeURIComponent(name);
+    mailBody += SEP + "Sincerely,\n" + name;
   }
 
   // Encode full body safely
@@ -4244,7 +4243,6 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   window.location.href = mailto;
 })();
 </script>
-<!-- Script ends here -->
 
 </body>
 </html>
