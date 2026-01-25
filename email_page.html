@@ -4142,41 +4142,48 @@ const EMAILS = {
   ]
 };
 
-// Email content sections
+
+// Sections with 4 self-contained variations each
 const OPENING = [
-  "I write on behalf of the Kurdish people in Syria, whose courage and sacrifice have long protected not only their communities but the wider world.",
-  "For years, Kurdish communities stood on the front lines against ISIS, confronting extremism directly while the international community relied on their efforts.",
-  "Their actions prevented further destabilization across the region and contributed to global security. Today, they face renewed threats and abandonment."
+  "I write on behalf of the Kurdish people in Syria, whose courage has long protected not only their communities but the wider world.",
+  "The Kurdish communities have stood on the front lines against ISIS for years, safeguarding the region and preventing further extremism.",
+  "Kurdish populations have sacrificed much to preserve regional stability and global security.",
+  "Today, Kurdish people face renewed threats and abandonment despite their heroic efforts."
 ];
 
 const HISTORY = [
-  "The Kurds have consistently risked their lives to safeguard others, playing a decisive role in preventing mass atrocities and dismantling terrorist networks.",
-  "Without sustained international support, Kurdish communities face new vulnerabilities as ceasefires remain fragile and promises are broken.",
-  "Territories they defended are under pressure from forces that do not respect their rights or safety."
+  "The Kurds have consistently risked their lives to protect others and dismantle terrorist networks.",
+  "Without sustained international support, Kurdish communities remain vulnerable as fragile ceasefires and unfulfilled promises leave them exposed.",
+  "The Kurdish people's efforts have historically prevented mass atrocities in Syria and beyond.",
+  "Territories defended by Kurdish communities are now under pressure from forces that disregard their rights and safety."
 ];
 
 const SACRIFICE = [
-  "A world that abandons the Kurds is a world that becomes less safe for all. Extremism, instability, and violence do not remain local—they spread.",
-  "Protecting Kurdish communities is not merely an act of solidarity; it is a strategic imperative. When the Kurds are safe and empowered, the broader region is safer.",
-  "Their security is inseparable from our collective security."
+  "Abandoning the Kurds threatens global stability, as instability spreads beyond local borders.",
+  "Supporting Kurdish communities is not just solidarity—it is a strategic imperative for regional security.",
+  "Ensuring Kurdish safety protects the broader region and contributes to collective security.",
+  "Kurdish resilience demonstrates that their security is inseparable from international stability."
 ];
 
 const BETRAYAL = [
-  "Silence or inaction is not neutral—it compounds injustice and increases risk for everyone.",
-  "The Kurds cannot defend themselves alone; they need allies willing to uphold justice, human dignity, and the principles that make the world safer.",
-  "Failing to support them now is not just a moral lapse—it is a global security risk."
+  "Silence or inaction compounds injustice and increases risk for everyone.",
+  "The Kurds cannot defend themselves alone and need allies committed to justice and human dignity.",
+  "Failing to support Kurdish populations now is both a moral and security lapse.",
+  "Neglecting Kurdish communities jeopardizes global stability and peace."
 ];
 
 const CALL = [
-  "We urge you to act now: advocate for protective measures, amplify Kurdish voices, and support policies that ensure their safety.",
-  "Let us stand with the Kurds, not only because it is just, but because the world itself is stronger, safer, and more secure when they are protected.",
-  "Your action matters—support Kurdish communities before it is too late."
+  "We urge you to act immediately: advocate for protective measures and amplify Kurdish voices.",
+  "Let us stand with Kurdish populations because justice and security demand it.",
+  "Your timely action can ensure Kurdish communities remain safe before threats escalate.",
+  "Immediate policy measures are required to safeguard the lives and dignity of Kurdish populations."
 ];
 
 const CLOSING = [
   "This appeal is directed to those who value human rights, justice, and ethical responsibility.",
-  "We urge you to act decisively in support of Kurdish populations at risk amid ongoing threats.",
-  "Stand with the Kurds today—because protecting them strengthens global security and respects human dignity."
+  "Act decisively in support of Kurdish populations at risk amid ongoing threats.",
+  "Stand with the Kurds today—protecting them strengthens global security.",
+  "Ensuring Kurdish safety respects human dignity and reinforces international stability."
 ];
 
 // Subject variations
@@ -4188,7 +4195,7 @@ const SUBJECT_BODY = [
 ];
 const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
-// Main function
+// Build the email
 (function () {
   const batch = getParam("batch");
   const name  = getParam("name") || "";
@@ -4199,7 +4206,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     return;
   }
 
-  // Pick one sentence per section
+  // Pick one variation from each section
   const sections = [
     pick(OPENING),
     pick(HISTORY),
@@ -4212,11 +4219,11 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   // Paragraph separator = empty line
   const SEP = "\n\n";
 
-  // Keep order natural (Opening → History → Sacrifice → Betrayal → Call → Closing)
+  // Build body with logical section order
   let mailBody = "Dear Representative / Public Figure," + SEP +
                  sections.join(SEP);
 
-  // Add sender name
+  // Add sender name if provided
   if (name) {
     mailBody += SEP + "Sincerely,\n" + name;
   }
@@ -4224,7 +4231,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   // Encode body
   const encodedBody = encodeURIComponent(mailBody);
 
-  // Dynamic subject
+  // Subject line
   const subject =
     `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
 
