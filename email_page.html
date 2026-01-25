@@ -4142,54 +4142,51 @@ const EMAILS = {
     "report@aiusa.org"
   ]
 };
-// Variations of sentences from the image text
 const OPENING = [
-  "This is an urgent appeal.",
-  "I am writing with utmost urgency regarding the Kurds of Syria.",
-  "Please consider this immediate appeal on behalf of Kurdish allies."
+  "I write on behalf of the Kurdish people in Syria, whose courage and sacrifice have long protected not only their communities but the wider world.",
+  "For years, Kurdish communities stood on the front lines against ISIS, confronting extremism directly while the international community relied on their efforts.",
+  "Their actions prevented further destabilization across the region and contributed to global security. Today, they face renewed threats and abandonment."
 ];
 
 const HISTORY = [
-  "History is repeating itself. Once again, the United States is abandoning its crucial ally in the Middle East.",
-  "History repeats: the Kurds, vital partners for democracy, are being forsaken once again.",
-  "Time and again, history shows the US leaving its most important ally vulnerable."
+  "The Kurds have consistently risked their lives to safeguard others, playing a decisive role in preventing mass atrocities and dismantling terrorist networks.",
+  "Without sustained international support, Kurdish communities face new vulnerabilities as ceasefires remain fragile and promises are broken.",
+  "Territories they defended are under pressure from forces that do not respect their rights or safety."
 ];
 
 const SACRIFICE = [
-  "The Kurds of Syria sacrificed their sons and daughters to fight the most brutal organization in human history.",
-  "Syrian Kurds risked everything, fighting the deadliest terrorist organization of our time.",
-  "Kurds gave their utmost to defeat ISIS and protect regional stability."
+  "A world that abandons the Kurds is a world that becomes less safe for all. Extremism, instability, and violence do not remain local—they spread.",
+  "Protecting Kurdish communities is not merely an act of solidarity; it is a strategic imperative. When the Kurds are safe and empowered, the broader region is safer.",
+  "Their security is inseparable from our collective security."
 ];
 
 const BETRAYAL = [
-  "Today, they are abandoned by the international community and by the Global Coalition to Defeat ISIS.",
-  "Currently, Kurdish communities face betrayal by international partners who once supported them.",
-  "Despite their sacrifices, Kurds are left vulnerable by those who promised protection."
-];
-
-const CONSEQUENCE = [
-  "We wake up to the realization that political deals are harming those who fought for freedom.",
-  "Political maneuvers now endanger the Kurds who defended humanity.",
-  "Authoritarian deals divide the spoils of the region at the Kurds' expense."
-];
-
-const FRIENDS = [
-  "Friends who once declared: 'The Kurds no longer need the mountains; we are your friends.' have betrayed them.",
-  "Those who claimed friendship and support have abandoned Kurdish allies.",
-  "Promises of friendship have been broken, leaving the Kurds unprotected."
+  "Silence or inaction is not neutral—it compounds injustice and increases risk for everyone.",
+  "The Kurds cannot defend themselves alone; they need allies willing to uphold justice, human dignity, and the principles that make the world safer.",
+  "Failing to support them now is not just a moral lapse—it is a global security risk."
 ];
 
 const CALL = [
-  "We will endure, but you must choose: stand with justice or ignore the suffering of the Kurds.",
-  "Your action matters—choose to support Kurdish allies now.",
-  "It is a critical moment: stand with the Kurds or let injustice prevail."
+  "We urge you to act now: advocate for protective measures, amplify Kurdish voices, and support policies that ensure their safety.",
+  "Let us stand with the Kurds, not only because it is just, but because the world itself is stronger, safer, and more secure when they are protected.",
+  "Your action matters—support Kurdish communities before it is too late."
 ];
 
 const CLOSING = [
-  "This appeal is addressed to all who claim humanity and uphold journalistic values.",
-  "We urge you, defenders of justice, to act now in support of the Kurds.",
-  "Those who value freedom and human rights must hear this urgent call."
+  "This appeal is directed to those who value human rights, justice, and ethical responsibility.",
+  "We urge you to act decisively in support of Kurdish populations at risk amid ongoing threats.",
+  "Stand with the Kurds today—because protecting them strengthens global security and respects human dignity."
 ];
+
+const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Responsibility", "Critical Notice"];
+const SUBJECT_BODY = [
+  "Protect the Kurds of Syria",
+  "Stand with Kurdish Communities",
+  "Support Kurdish Autonomy and Security",
+  "Global Safety Requires Kurdish Protection"
+];
+const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
+
 
 // Minimal dynamic subject variations
 const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice"];
@@ -4198,7 +4195,6 @@ const SUBJECT_BODY = [
   "Stand with Kurdish Allies",
   "Do Not Abandon Kurdish Communities"
 ];
-const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
 // Generate email
 (function () {
