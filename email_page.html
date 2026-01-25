@@ -8,6 +8,7 @@
 
 <h3 id="status">Preparing your email…</h3>
 
+<!-- Script starts here -->
 <script>
 // Helper functions
 function getParam(name) {
@@ -22,7 +23,7 @@ function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Email batches
+
 
 // Define email batches (10 per batch)
 const EMAILS = {
@@ -4142,6 +4143,8 @@ const EMAILS = {
     "report@aiusa.org"
   ]
 };
+
+// Email content sections
 const OPENING = [
   "I write on behalf of the Kurdish people in Syria, whose courage and sacrifice have long protected not only their communities but the wider world.",
   "For years, Kurdish communities stood on the front lines against ISIS, confronting extremism directly while the international community relied on their efforts.",
@@ -4178,7 +4181,7 @@ const CLOSING = [
   "Stand with the Kurds today—because protecting them strengthens global security and respects human dignity."
 ];
 
-// Minimal dynamic subject variations
+// Subject variations
 const SUBJECT_PREFIX = ["Urgent Appeal", "Immediate Action Required", "Critical Notice"];
 const SUBJECT_BODY = [
   "Protect the Kurds of Syria",
@@ -4187,7 +4190,7 @@ const SUBJECT_BODY = [
 ];
 const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
 
-// Generate email
+// Main function
 (function () {
   const batch = getParam("batch");
   const name  = getParam("name") || "";
@@ -4241,6 +4244,7 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   window.location.href = mailto;
 })();
 </script>
+<!-- Script ends here -->
 
 </body>
 </html>
