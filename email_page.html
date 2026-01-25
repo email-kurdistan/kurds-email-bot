@@ -4222,11 +4222,23 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CALL),
     pick(CLOSING)
   ];
-
+  // --- EMAIL-SAFE LINE BREAKS ---
+  const NL = "\r\n";   // CRLF required for mail clients
+  
   const bodySections = shuffle(sections);
+  
+  let body =
+    "Dear Representative / Public Figure," + NL + NL +
+    bodySections.join(NL + NL);
+  
+  if (name) {
+    body += NL + NL + "Sincerely," + NL + name;
+  }
 
-  let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
-  if (name) body += "\n\nSincerely,\n" + name;
+  // const bodySections = shuffle(sections);
+
+  // let body = "Dear Representative / Public Figure,\n\n" + bodySections.join("\n\n");
+  // if (name) body += "\n\nSincerely,\n" + name;
 
   // Dynamic subject
   const subject = `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
