@@ -4222,21 +4222,24 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CALL),
     pick(CLOSING)
   ];
-  // --- FORCE MAILTO-SAFE LINE BREAKS ---
-  const NL = "%0D%0A"; // literal CRLF for mailto (DO NOT use \n or \r\n here)
+
+  // Line break and separator for mail clients
+  const NL = "%0D%0A";  // CRLF for mailto
+  const SEP = NL + NL + "— — —" + NL + NL;  // Visual paragraph separator
   
   const bodySections = shuffle(sections);
   
-  // Build body with MANUAL line breaks
+  // Build the body with separators between paragraphs
   let mailBody =
-    "Dear Representative / Public Figure," + NL + NL +
-    bodySections.join(NL + NL);
+    "Dear Representative / Public Figure," + SEP +
+    bodySections.join(SEP);
   
+  // Add sender name if provided
   if (name) {
-    mailBody += NL + NL + "Sincerely," + NL + name;
+    mailBody += SEP + "Sincerely," + NL + name;
   }
   
-  // Dynamic subject
+  // Dynamic subject line
   const subject =
     `${pick(SUBJECT_PREFIX)}: ${pick(SUBJECT_BODY)} ${pick(SUBJECT_EMPHASIS)}`.trim();
   
@@ -4244,19 +4247,19 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
   const bccList = recipients.join(",");
   
   // Mailto URL
-  // IMPORTANT:
-  //  - encode bcc ✅
-  //  - encode subject ✅
-  //  - DO NOT encode body ❌
+  // IMPORTANT: 
+  // - encode bcc ✅
+  // - encode subject ✅
+  // - DO NOT encode body ❌ (manual %0D%0A already applied)
   const mailto =
     `mailto:?bcc=${encodeURIComponent(bccList)}` +
     `&subject=${encodeURIComponent(subject)}` +
     `&body=${mailBody}`;
   
-  // Redirect
+  // Redirect to open email client
   window.location.href = mailto;
-  })();
   </script>
   
   </body>
   </html>
+  
