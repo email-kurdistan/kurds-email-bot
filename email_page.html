@@ -4209,21 +4209,19 @@ const SUBJECT_EMPHASIS = ["⚠️", "‼️", "🔔", "", ""];
     pick(CLOSING)
   ];
 
-  // Use a real paragraph break (empty line) as separator
+  // Paragraph separator = empty line
   const SEP = "\n\n";
 
-  const bodySections = shuffle(sections);
-
-  // Build body
+  // Keep order natural (Opening → History → Sacrifice → Betrayal → Call → Closing)
   let mailBody = "Dear Representative / Public Figure," + SEP +
-                 bodySections.join(SEP);
+                 sections.join(SEP);
 
-  // Add sender name safely
+  // Add sender name
   if (name) {
     mailBody += SEP + "Sincerely,\n" + name;
   }
 
-  // Encode full body safely
+  // Encode body
   const encodedBody = encodeURIComponent(mailBody);
 
   // Dynamic subject
